@@ -14,6 +14,12 @@
       font-family: 'Poppins', sans-serif;
       background-color: #f9f9f9;
       color: #333;
+      overflow-x: hidden;
+      transition: filter 0.3s ease;
+    }
+
+    body.dimmed {
+      filter: brightness(90%);
     }
 
     header {
@@ -21,12 +27,14 @@
       color: white;
       padding: 1.5rem 2rem;
       text-align: center;
+      animation: fadeInDown 1.5s ease;
     }
 
     header h1 {
       font-size: 2.5rem;
       margin: 0;
       font-family: 'Merriweather', serif;
+      animation: bounceIn 2s ease;
     }
 
     header p {
@@ -34,27 +42,50 @@
       font-size: 1.2rem;
     }
 
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 1rem;
-      position: sticky;
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
       top: 0;
-      z-index: 1000;
+      left: -250px;
+      background: rgba(30, 60, 114, 0.95);
+      backdrop-filter: blur(6px);
+      transition: 0.4s;
+      padding-top: 60px;
+      z-index: 1001;
     }
 
-    nav a {
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar a {
+      padding: 12px 24px;
       text-decoration: none;
-      color: #1e3c72;
-      font-weight: 600;
-      transition: color 0.3s;
+      font-size: 1.2rem;
+      color: #fff;
+      display: block;
+      transition: 0.3s;
     }
 
-    nav a:hover {
-      color: #ff6600;
+    .sidebar a:hover {
+      background: #ff6600;
+    }
+
+    .openbtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      background: #1e3c72;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 8px;
+      z-index: 1002;
+ 
     }
 
     .hero {
@@ -66,6 +97,7 @@
       color: white;
       text-align: center;
       position: relative;
+      animation: fadeIn 2s ease;
     }
 
     .hero::after {
@@ -78,6 +110,7 @@
     .hero-content {
       position: relative;
       z-index: 1;
+      animation: zoomIn 2s ease;
     }
 
     .hero h2 {
@@ -95,12 +128,14 @@
       color: #00ff88;
       font-size: 1.2rem;
       margin-top: 2rem;
+      animation: bounce 2s infinite;
     }
 
     section {
       padding: 4rem 2rem;
       max-width: 1200px;
       margin: auto;
+      animation: fadeInUp 1.5s ease;
     }
 
     .grid {
@@ -116,10 +151,11 @@
       padding: 2rem;
       text-align: center;
       transition: transform 0.3s;
+      animation: flipInY 1.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      transform: scale(1.05);
     }
 
     footer {
@@ -128,71 +164,223 @@
       text-align: center;
       padding: 2rem;
       margin-top: 3rem;
+      animation: fadeIn 2s ease;
     }
 
     footer p {
       margin: 0.5rem 0;
     }
+
+    /* Animations */
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    @keyframes fadeInUp { from {opacity:0; transform: translateY(40px);} to {opacity:1; transform: translateY(0);} }
+    @keyframes fadeInDown { from {opacity:0; transform: translateY(-40px);} to {opacity:1; transform: translateY(0);} }
+    @keyframes zoomIn { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
+    @keyframes bounceIn { 0% {transform: scale(0.5); opacity:0;} 50% {transform: scale(1.1);} 100% {transform: scale(1); opacity:1;} }
+    @keyframes flipInY { from {transform: rotateY(90deg); opacity:0;} to {transform: rotateY(0); opacity:1;} }
+    @keyframes bounce { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+    @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
   </style>
 </head>
-<body>
+<body onclick="outsideClick(event)">
+<!-- Kółko po prawej stronie -->
+<div id="discordWidget" style="position:fixed;right:20px;bottom:20px;z-index:10000;">
+  <div id="circle" style="
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#5865F2;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+  " onclick="togglePanel()">DC</div>
+  
+  <div id="panel" style="
+    display:none;
+    width:250px;
+    background:#2C2F33;
+    color:white;
+    border-radius:12px;
+    padding:15px;
+    margin-top:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  ">
+    <p id="loginText">Zaloguj przez Discord</p>
+    <a href="https://discord.com/oauth2/authorize?client_id=1413205269483098352&response_type=code&redirect_uri=https%3A%2F%2Fcentrumhandloweob.github.io%2Fch%2F&scope=identify" 
+       style="display:inline-block;margin-top:10px;background:#7289DA;color:white;padding:8px 12px;border:none;border-radius:6px;text-decoration:none;">
+      Login
+    </a>
+  </div>
+</div>
+
+<script>
+function togglePanel() {
+  const panel = document.getElementById('panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+// Tu po powrocie z Discorda możesz obsłużyć code i np. ustawić nick/avatar:
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code) {
+    // Tutaj normalnie wymieniasz code na token przez backend
+    // a potem pobierasz avatar i username
+    const circle = document.getElementById('circle');
+    const loginText = document.getElementById('loginText');
+    
+    // Symulacja zalogowanego użytkownika
+    const user = { username: "TwojNick", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" };
+    
+    circle.innerHTML = `<img src="${user.avatar}" style="width:40px;height:40px;border-radius:50%;">`;
+    loginText.innerText = user.username;
+  }
+});
+</script>
 
   <header>
-    <h1>Centrum Handlowe OB </h1>
+    <h1>Centrum Handlowe OB</h1>
     <p>i.m. Pendziwiatra</p>
   </header>
 
-  <nav>
-    <a href="#sklepy">Sklepy</a>
-    <a href="#gastronomia">Info</a>
-    <a href="#wydarzenia">Wydarzenia</a>
-    <a href="#kontakt">Otwórz sklep</a>
-  </nav>
+  <button class="openbtn" onclick="toggleNav(event)">☰ Menu</button>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="#sklepy" onclick="toggleNav(event)">Sklepy</a>
+    <a href="#gastronomia" onclick="toggleNav(event)">Gastronomia</a>
+    <a href="#wydarzenia" onclick="toggleNav(event)">Wydarzenia</a>
+    <a href="#kontakt" onclick="toggleNav(event)">Kontakt</a>
+    <a href="#discord" onclick="toggleNav(event)">Discord</a>
+  </div>
 
   <div class="hero">
     <div class="hero-content">
       <h2>Witamy!</h2>
-      <p>Zakupy, rozrywka i relaks – wszystko w jednym miejscu.</p>
-      <div class="minecraft-text">/is warp kubagood</div>
+      <p>Chcesz otworzyć u nas swój sklep?</p>
+        <a href="https://discord.gg/hh9C48qU" target="_blank" class="discord-btn">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" />
+  Dołącz na Discord
+</a>
+
+<style>
+  .discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #5865F2;
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .discord-btn img {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+  }
+
+  .discord-btn:hover {
+    background: #4752C4;
+    transform: scale(1.05);
+  }
+</style>
+
     </div>
   </div>
 
   <section id="sklepy">
     <h2>Nasze Sklepy</h2>
     <div class="grid">
-      <div class="card">Moda & Styl</div>
-      <div class="card">Elektronika</div>
-      <div class="card">Zdrowie & Uroda</div>
-      <div class="card">Sport & Hobby</div>
+      <div class="card">Wojan Shop</div>
+      <div class="card">Bloki budowlane</div>
+      <div class="card">H&M</div>
+      <div class="card">Podpisy</div>
     </div>
   </section>
 
   <section id="gastronomia">
     <h2>Strefa Gastronomiczna</h2>
     <div class="grid">
-      <div class="card">Restauracje</div>
-      <div class="card">Kawiarnie</div>
-      <div class="card">Fast Food</div>
-      <div class="card">Kuchnia świata</div>
+      <div class="card">KFC</div>
+      <div class="card">McDonald's</div>
+      <div class="card">Żabka</div>
+      <div class="card">Burger Shop</div>
     </div>
   </section>
 
   <section id="wydarzenia">
     <h2>Aktualne Wydarzenia</h2>
-    <p>Koncerty, pokazy mody, atrakcje dla dzieci i wiele więcej – sprawdź nasz kalendarz wydarzeń!</p>
+    <p>Brak zaplanowanych wydarzeń...</p>
   </section>
 
   <section id="kontakt">
     <h2>Kontakt</h2>
-    <p>Email: kontakt@centrumob.pl</p>
-    <p>Telefon: +48 123 456 789</p>
-    <p>Adres: ul. Handlowa 1, Warszawa</p>
+    <p>Email: centrumhandloweob@gmail.com</p>
+    <p>Anarchia.gg Oneblock > /is warp kubagood</p>
   </section>
+
+  <a href="https://discord.gg/hh9C48qU" target="_blank" class="discord-btn">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" />
+  Dołącz na Discord
+</a>
+
+<style>
+  .discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #5865F2;
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .discord-btn img {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+  }
+
+  .discord-btn:hover {
+    background: #4752C4;
+    transform: scale(1.05);
+  }
+</style>
+
 
   <footer>
     <p>&copy; 2025 Centrum Handlowe OB i.m. Pendziwiatra</p>
     <p>Wszelkie prawa zastrzeżone.</p>
   </footer>
+
+  <script>
+    function toggleNav(event) {
+      event.stopPropagation();
+      const sidebar = document.getElementById("mySidebar");
+      const body = document.body;
+      sidebar.classList.toggle("active");
+      body.classList.toggle("dimmed");
+    }
+
+    function outsideClick(event) {
+      const sidebar = document.getElementById("mySidebar");
+      if (sidebar.classList.contains("active") && !sidebar.contains(event.target) && !event.target.classList.contains("openbtn")) {
+        sidebar.classList.remove("active");
+        document.body.classList.remove("dimmed");
+      }
+    }
+  </script>
 
 </body>
 </html>
