@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centrum Handlowe OB i.m. Pendziwiatra</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Merriweather:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      font-family: 'Merriweather', serif;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1.2rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1e3c72;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff6600;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    .hero p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .minecraft-text {
+      font-family: 'Press Start 2P', cursive;
+      color: #00ff88;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background-color: #1e3c72;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    footer p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Centrum Handlowe OB </h1>
+    <p>i.m. Pendziwiatra</p>
+  </header>
+
+  <nav>
+    <a href="#sklepy">Sklepy</a>
+    <a href="#gastronomia">Info</a>
+    <a href="#wydarzenia">Wydarzenia</a>
+    <a href="#kontakt">Otwórz sklep</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h2>Witamy!</h2>
+      <p>Zakupy, rozrywka i relaks – wszystko w jednym miejscu.</p>
+      <div class="minecraft-text">/is warp kubagood</div>
+    </div>
+  </div>
+
+  <section id="sklepy">
+    <h2>Nasze Sklepy</h2>
+    <div class="grid">
+      <div class="card">Moda & Styl</div>
+      <div class="card">Elektronika</div>
+      <div class="card">Zdrowie & Uroda</div>
+      <div class="card">Sport & Hobby</div>
+    </div>
+  </section>
+
+  <section id="gastronomia">
+    <h2>Strefa Gastronomiczna</h2>
+    <div class="grid">
+      <div class="card">Restauracje</div>
+      <div class="card">Kawiarnie</div>
+      <div class="card">Fast Food</div>
+      <div class="card">Kuchnia świata</div>
+    </div>
+  </section>
+
+  <section id="wydarzenia">
+    <h2>Aktualne Wydarzenia</h2>
+    <p>Koncerty, pokazy mody, atrakcje dla dzieci i wiele więcej – sprawdź nasz kalendarz wydarzeń!</p>
+  </section>
+
+  <section id="kontakt">
+    <h2>Kontakt</h2>
+    <p>Email: kontakt@centrumob.pl</p>
+    <p>Telefon: +48 123 456 789</p>
+    <p>Adres: ul. Handlowa 1, Warszawa</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Centrum Handlowe OB i.m. Pendziwiatra</p>
+    <p>Wszelkie prawa zastrzeżone.</p>
+  </footer>
+
+</body>
+</html>
