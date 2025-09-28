@@ -9,206 +9,158 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Merriweather:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
-  html {
-  scroll-behavior: smooth;
-}
+  html { scroll-behavior: smooth; }
 
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      overflow-x: hidden;
-      /* odsunięcie treści na prawo od menu */
-      margin-left: 250px;
-    }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    overflow-x: hidden;
+    margin-left: 250px;
+  }
 
-    header {
-      background: darkgray;
-background: #020024;
-background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 48%, rgba(2, 147, 176, 1) 100%);
-      padding: 1.5rem 2rem;
-      text-align: center;
-      animation: fadeInDown 1.5s ease;
-      color: white;
-    }
+  header {
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 48%, rgba(2,147,176,1) 100%);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    animation: fadeInDown 1.5s ease;
+    color: white;
+  }
 
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-      font-family: 'Merriweather', serif;
-      animation: bounceIn 2s ease;
-    }
+  header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-family: 'Merriweather', serif;
+    animation: bounceIn 2s ease;
+  }
 
-    header p {
-      margin: 0.5rem 0 0;
-      font-size: 1.2rem;
-    }
+  header p { margin: 0.5rem 0 0; font-size: 1.2rem; }
 
-    /* Sidebar zawsze widoczny */
-    .sidebar {
-      height: 100%;
-      width: 250px;
-      position: fixed;
-      top: 0;
-      left: 0;
-background: #020024;
-background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(66, 115, 194, 1) 64%, rgba(0, 212, 255, 0) 100%);
-      backdrop-filter: blur(6px);
-      padding-top: 60px;
-      z-index: 1001;
-    }
+  /* Sidebar */
+  .sidebar {
+    height: 100%; width: 250px;
+    position: fixed; top: 0; left: 0;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(66,115,194,1) 64%, rgba(0,212,255,0) 100%);
+    backdrop-filter: blur(6px);
+    padding-top: 60px; z-index: 1001;
+  }
 
-    .sidebar a {
-      padding: 12px 24px;
-      text-decoration: none;
-      font-size: 1.2rem;
-      color: #fff;
-      display: block;
-      transition: 0.3s;
-    }
+  .sidebar a {
+    padding: 12px 24px; text-decoration: none;
+    font-size: 1.2rem; color: #fff; display: block;
+    transition: 0.3s;
+  }
+  .sidebar a:hover {
+    background: linear-gradient(90deg, rgba(253,36,29,1) 0%, rgba(252,176,69,1) 67%, rgba(252,176,69,0) 99%);
+    transition: 0.4s;
+  }
 
-    .sidebar a:hover {
-background: #fd241d;
-background: linear-gradient(90deg, rgba(253, 36, 29, 1) 0%, rgba(252, 176, 69, 1) 67%, rgba(252, 176, 69, 0) 99%);
-transition: 0.4s;
-    }
+  .hero {
+    position: relative; height: 70vh;
+    display: flex; align-items: center; justify-content: center;
+    color: white; text-align: center;
+    animation: fadeIn 2s ease;
+    background-image: url('https://imgur.com/RB96qFP.png');
+    background-position: center; background-size: cover;
+  }
+  .hero::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+  }
+  .hero-content { position: relative; z-index: 1; animation: zoomIn 2s ease; }
+  .hero h2 { font-size: 3rem; margin: 0; }
+  .hero p { margin-top: 1rem; font-size: 1.2rem; }
 
-.hero {
-  position: relative;
-  height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  animation: fadeIn 2s ease;
+  section { padding: 4rem 2rem; max-width: 1200px; margin: auto; animation: fadeInUp 1.5s ease; }
 
-  /* tło + białe pod spodem */
-  background-color: white;
-  background-image: url('https://imgur.com/RB96qFP.png');
-  background-position: center;
-  background-size: cover;
-}
+  footer {
+    background-color: #1e3c72; color: white; text-align: center;
+    padding: 2rem; margin-top: 3rem; animation: fadeIn 2s ease;
+  }
 
-/* efekt płynnego przejścia w białe tło */
-.hero::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  /* tu definiujesz jak mocno zanika – zmieniaj % dla efektu */
-  background: radial-gradient(circle at center,
-      rgba(255,255,255,0) 80%,   /* środek przezroczysty */
-      rgba(255,255,255,1) 100%); /* brzegi białe */
-}
+  /* Discord */
+  .discord-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #5865F2; color: white; font-weight: bold;
+    padding: 12px 30px; border-radius: 8px; text-decoration: none;
+    font-size: 1.1rem; transition: background 0.3s, transform 0.2s;
+  }
+  .discord-btn img { width: 24px; height: 24px; filter: invert(1); }
+  .discord-btn:hover { background: #4752C4; transform: scale(1.05); }
 
+  /* === SKLEPY === */
+  .shops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
 
+  .shop-card {
+    background: white; border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; height: 120px; text-align: center;
+    transition: transform 0.3s;
+  }
+  .shop-card:hover { transform: scale(1.05); }
+  .shop-card img { max-width: 80%; max-height: 80%; object-fit: contain; }
+  .shop-name { font-weight: bold; font-size: 1.1rem; }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-    }
+  /* === WYDARZENIA === */
+  .wydarzenia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      animation: zoomIn 2s ease;
-    }
+  .event-card {
+    background: white; border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden; transition: transform 0.3s;
+    animation: fadeInUp 1s ease;
+  }
+  .event-card:hover { transform: scale(1.05); }
+  .event-card img { width: 100%; height: 180px; object-fit: cover; }
+  .event-info { padding: 1rem; }
+  .event-info h3 { margin: 0.5rem 0; }
+  .event-info .dates { font-weight: bold; color: #555; margin: 0.5rem 0; }
 
-    .hero h2 {
-      font-size: 3rem;
-      margin: 0;
-    }
+  .more-btn {
+    background: #5865F2; color: white; border: none;
+    padding: 10px 18px; border-radius: 8px;
+    cursor: pointer; transition: background 0.3s, transform 0.2s;
+  }
+  .more-btn:hover { background: #4752C4; transform: scale(1.05); }
 
-    .hero p {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-    }
+  /* Popup wydarzenia */
+  .event-popup {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 2000; animation: fadeIn 0.5s ease;
+  }
+  .popup-content {
+    background: white; padding: 2rem; border-radius: 12px;
+    max-width: 600px; width: 90%; text-align: center;
+    position: relative; animation: zoomIn 0.5s ease;
+  }
+  .popup-header-img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+  .close-btn {
+    position: absolute; top: 15px; right: 20px;
+    font-size: 2rem; cursor: pointer; color: #333;
+    transition: transform 0.2s;
+  }
+  .close-btn:hover { transform: scale(1.2); color: red; }
 
-    .minecraft-text {
-      font-family: 'Press Start 2P', cursive;
-      color: #00ff88;
-      font-size: 1.2rem;
-      margin-top: 2rem;
-      animation: bounce 2s infinite;
-    }
-
-    section {
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: auto;
-      animation: fadeInUp 1.5s ease;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      padding: 2rem;
-      text-align: center;
-      transition: transform 0.3s;
-      animation: flipInY 1.2s ease;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    footer {
-      background-color: #1e3c72;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-      margin-top: 3rem;
-      animation: fadeIn 2s ease;
-    }
-
-    footer p {
-      margin: 0.5rem 0;
-    }
-
-    /* Discord przycisk */
-    .discord-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #5865F2;
-      color: white;
-      font-weight: bold;
-      padding: 12px 30px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    .discord-btn img {
-      width: 24px;
-      height: 24px;
-      filter: invert(1);
-    }
-
-    .discord-btn:hover {
-      background: #4752C4;
-      transform: scale(1.05);
-    }
-
-    /* Animacje */
-    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-    @keyframes fadeInUp { from {opacity:0; transform: translateY(40px);} to {opacity:1; transform: translateY(0);} }
-    @keyframes fadeInDown { from {opacity:0; transform: translateY(-40px);} to {opacity:1; transform: translateY(0);} }
-    @keyframes zoomIn { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
-    @keyframes bounceIn { 0% {transform: scale(0.5); opacity:0;} 50% {transform: scale(1.1);} 100% {transform: scale(1); opacity:1;} }
-    @keyframes flipInY { from {transform: rotateY(90deg); opacity:0;} to {transform: rotateY(0); opacity:1;} }
-    @keyframes bounce { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+  /* Animacje */
+  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  @keyframes fadeInUp { from {opacity:0; transform: translateY(40px);} to {opacity:1; transform: translateY(0);} }
+  @keyframes fadeInDown { from {opacity:0; transform: translateY(-40px);} to {opacity:1; transform: translateY(0);} }
+  @keyframes zoomIn { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
+  @keyframes bounceIn { 0% {transform: scale(0.5); opacity:0;} 50% {transform: scale(1.1);} 100% {transform: scale(1); opacity:1;} }
   </style>
 </head>
 <body>
@@ -217,7 +169,7 @@ transition: 0.4s;
     <p>i.m. Pendziwiatra</p>
   </header>
 
-  <!-- Sidebar zawsze otwarty -->
+  <!-- Sidebar -->
   <div id="mySidebar" class="sidebar">
     <a href="#sklepy">Sklepy</a>
     <a href="#gastronomia">Gastronomia</a>
@@ -237,113 +189,69 @@ transition: 0.4s;
     </div>
   </div>
 
+  <!-- Sklepy -->
   <section id="sklepy">
-    <!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kategorie sklepów</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-  
-
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .shops-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* Kafelek sklepu */
-    .shop-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      height: 120px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-
-    .shop-card:hover {
-      transform: scale(1.05);
-    }
-
-    /* Kafelek z logiem (bez tekstu) */
-    .shop-card img {
-      max-width: 80%;
-      max-height: 80%;
-      object-fit: contain;
-    }
-
-    /* Kafelek z samą nazwą (bez loga) */
-    .shop-name {
-      background: white;
-      color: black;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-  </style>
-</head>
-<body>
-  <h2>Kategorie Sklepów</h2>
-
-  <div class="shops-grid">
-    <!-- Sklep z logiem -->
-    <div class="shop-card">
-      <img src="https://imgur.com/yXsDD54.png" alt="KFC">
+    <h2>Kategorie Sklepów</h2>
+    <div class="shops-grid">
+      <div class="shop-card"><img src="https://imgur.com/yXsDD54.png" alt="KFC"></div>
+      <div class="shop-card shop-name">Dach pod Chomikiem</div>
+      <div class="shop-card"><img src="https://imgur.com/vyaF5Qx.png" alt="McDonald's"></div>
+      <div class="shop-card shop-name">Wojan Shop</div>
+      <div class="shop-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/512px-H%26M-Logo.svg.png" alt="H&M"></div>
+      <div class="shop-card shop-name">Podpisy</div>
+      <div class="shop-card"><img src="https://imgur.com/IFxfLcj.png" alt="Logo"></div>
+      <div class="shop-card"><img src="https://imgur.com/JPyJaTs.png" alt="Logo"></div>
+      <div class="shop-card"><img src="https://imgur.com/Eb7epic.png" alt="Logo"></div>
+      <div class="shop-card shop-name">Sklep 5zymix_</div>
     </div>
-    <div class="shop-card shop-name">
-      Dach pod Chomikiem
-    </div>
-    <div class="shop-card">
-      <img src="https://imgur.com/vyaF5Qx.png" alt="McDonald's">
-    </div>
-    <div class="shop-card shop-name">
-      Wojan Shop
-    </div>
-    <div class="shop-card">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/512px-H%26M-Logo.svg.png" alt="H&M">
-    </div>
-
-    <!-- Sklep bez loga – sama nazwa -->
-    <div class="shop-card shop-name">
-      Podpisy
-    </div>
-
-       <div class="shop-card">
-      <img src="https://imgur.com/IFxfLcj.png" alt="H&M">
-    </div>
-
-    <div class="shop-card">
-      <img src="https://imgur.com/JPyJaTs.png" alt="H&M">
-    </div>
-    <div class="shop-card">
-      <img src="https://imgur.com/Eb7epic.png" alt="H&M">
-    </div>
-        <!-- Sklep bez loga – sama nazwa -->
-    <div class="shop-card shop-name">
-      Sklep 5zymix_
-    </div>
-  </div>
-</body>
-</html>
-
   </section>
 
+  <!-- Wydarzenia -->
   <section id="wydarzenia">
     <h2>Aktualne Wydarzenia</h2>
-    <p>Brak zaplanowanych wydarzeń...</p>
+    <div class="wydarzenia-grid">
+      <div class="event-card">
+        <img src="https://imgur.com/qlvxw39.png" alt="Wydarzenie">
+        <div class="event-info">
+          <h3>HALLOWEENOWY FESTYN W CENTRUM</h3>
+          <p>halloweenowy festiwal w centrum. Specjalne wydarzenie z okazji otwarcia centrum po remoncie...</p>
+          <p class="dates">wkrótce...</p>
+          <button class="more-btn">Więcej</button>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!-- Popup wydarzenia -->
+  <div class="event-popup" id="eventPopup">
+    <div class="popup-content">
+      <span class="close-btn">&times;</span>
+      <img class="obrazek1" src="https://imgur.com/qlvxw39.png">
+      <style>
+      .obrazek1 {
+      width: 600px;
+      height: 300px;
+      
+      }
+      
+      </style>
+      <h1>HALLOWEENOWY FESTYN W CENTRUM</h1>
+      <p><strong>Opis:</strong> halloweenowy festiwal w centrum. Specjalne wydarzenie z okazji otwarcia centrum po remoncie.<br><br>
+      <b>ATRAKCJE:</b>
+      <ul>
+      <li>Spotkanie z twórcami z Oneblocka np: Pendziwiart, Zazirek, Gierkauboba, MF_Figa</li>
+       <li>Giveaway kluczy: przygotowaliśmy 64 klucze AFK, 32 rzadkie klucze i 1 anarchiczny klucz</li>
+       <li>Promocje -40% na wszystko</li>
+       <li>Gry i super zabawy :D</li>
+      </ul>
+</p>
+      <p><strong>Organizator:</strong> Centrum Handlowe OB, Pendziwiart</p>
+      <p><strong>Miejsce:</strong> Centrum handlowe OB >> /is warp kubagood</p>
+      <p><strong>Data:</strong> Wkróce...</p>
+    </div>
+  </div>
+
+  <!-- Kontakt -->
   <section id="kontakt">
     <h2>Kontakt</h2>
     <p>Email: centrumhandloweob@gmail.com</p>
@@ -359,5 +267,25 @@ transition: 0.4s;
     <p>&copy; 2025 Centrum Handlowe OB i.m. Pendziwiatra</p>
     <p>Wszelkie prawa zastrzeżone.</p>
   </footer>
+
+  <script>
+    const moreBtn = document.querySelector(".more-btn");
+    const popup = document.getElementById("eventPopup");
+    const closeBtn = document.querySelector(".close-btn");
+
+    moreBtn.addEventListener("click", () => {
+      popup.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
