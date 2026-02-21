@@ -1,260 +1,312 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centrum Handlowe OB i.m. Pendziwiatra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-
+  <title>Centrum Handlowe OB i.m. MlodegoDoroslego</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family:'Poppins',sans-serif;
-      background:#fff;
-      color:#333;
+    :root {
+      --bg-color: #f4f7f6;
+      --text-color: #1a1a1a;
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --card-bg: #ffffff;
+      --primary: #5865F2;
+      --primary-hover: #4752C4;
+      --accent: #ff4757;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --ad-bg: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
     }
 
-    /* NAVBAR */
-    .navbar{
-      position:sticky;top:0;z-index:1000;
-      background:#fff;
-      box-shadow:0 2px 8px rgba(0,0,0,.08);
-      display:flex;justify-content:space-between;align-items:center;
-      padding:0.5rem 2rem;
-    }
-    .navbar h1{font-family:'Merriweather',serif;font-size:1.5rem;margin:0;}
-    .navbar ul{list-style:none;display:flex;gap:2rem;margin:0;}
-    .navbar a{text-decoration:none;color:#333;font-weight:500;transition:.3s;}
-    .navbar a:hover{color:#d32f2f;}
-
-    /* HERO */
-    .hero{
-      height:60vh;
-      background:url('https://imgur.com/RB96qFP.png') center/cover no-repeat;
-      display:flex;flex-direction:column;justify-content:center;align-items:center;
-      text-align:center;
-      position:relative;
-      color:#fff;
-    }
-    .hero::after{
-      content:"";position:absolute;inset:0;background:rgba(0,0,0,0.45);
-    }
-    .hero-content{position:relative;z-index:1;}
-    .hero h2{font-size:3rem;margin:0;}
-    .hero p{font-size:1.2rem;margin:.5rem 0 1rem;}
-    .discord-btn{
-      display:inline-flex;align-items:center;gap:10px;
-      background:#5865F2;color:#fff;font-weight:bold;
-      padding:12px 24px;border-radius:6px;text-decoration:none;
-      transition:background .3s,transform .2s;
-    }
-    .discord-btn img{width:24px;height:24px;filter:invert(1);}
-    .discord-btn:hover{background:#4752C4;transform:scale(1.05);}
-
-    /* BANER Westfield style */
-    .banner{
-      position:relative;
-      height:300px;
-      background:url('https://imgur.com/qlvxw39.png') center/cover no-repeat;
-      display:flex;align-items:center;justify-content:center;
-    }
-    .banner::after{
-      content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);
-    }
-    .banner h2{
-      position:relative;
-      color:#fff;font-size:3rem;
-      font-weight:700;text-transform:uppercase;
-      z-index:1;text-align:center;
-    }
-     .banner h5{
-      position:relative;
-      color:red;font-size:2rem;
-      font-weight:700;text-transform:uppercase;
-      z-index:;text-align:center;
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --nav-bg: rgba(18, 18, 18, 0.85);
+      --card-bg: #1e1e1e;
+      --shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+      --ad-bg: linear-gradient(45deg, #2b5876 0%, #4e4376 100%);
     }
 
-    section{padding:4rem 2rem;max-width:1200px;margin:auto;}
-    section h2{text-align:center;font-size:2rem;margin-bottom:2rem;}
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR - Glassmorphism */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--nav-bg); backdrop-filter: blur(10px);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; box-shadow: var(--shadow);
+      transition: all 0.3s;
+    }
+    .navbar h1 { font-weight: 800; font-size: 1.5rem; letter-spacing: 1px; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-tools { display: flex; gap: 15px; align-items: center; }
+    .nav-tools input { padding: 8px 15px; border-radius: 20px; border: 1px solid #ccc; outline: none; background: var(--card-bg); color: var(--text-color); }
+    .btn-icon { background: var(--card-bg); border: none; cursor: pointer; font-size: 1.2rem; padding: 10px; border-radius: 50%; box-shadow: var(--shadow); color: var(--text-color); transition: transform 0.3s; }
+    .btn-icon:hover { transform: scale(1.1) rotate(15deg); }
+
+    /* REKLAMY */
+    .ad-banner {
+      width: 100%; padding: 15px; text-align: center; background: var(--ad-bg);
+      color: #fff; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;
+      overflow: hidden; position: relative;
+    }
+    .ad-banner::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg); animation: shine 3s infinite;
+    }
+    @keyframes shine { 100% { left: 200%; } }
+
+    /* HERO SECTION */
+    .hero {
+      height: 70vh; position: relative;
+      background: url('https://imgur.com/RB96qFP.png') center/cover fixed; 
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; color: #fff;
+    }
+    .hero::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
+    .hero-content { position: relative; z-index: 1; animation: slideUp 1s ease-out; }
+    .hero h2 { font-size: 4rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); margin-bottom: 20px;}
+    
+    @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* MAIN CONTAINER */
+    .container { max-width: 1400px; margin: auto; padding: 4rem 2rem; }
+    h2.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 2px; }
 
     /* SKLEPY GRID */
-    .shops-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:1.5rem;
+    .shops-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;
     }
-    .shop-card{
-      background:#f7f7f7;border-radius:8px;
-      box-shadow:0 2px 6px rgba(0,0,0,0.08);
-      display:flex;align-items:center;justify-content:center;
-      padding:1rem;height:120px;text-align:center;
-      transition:transform .3s;
+    .shop-card {
+      background: var(--card-bg); border-radius: 15px; padding: 2rem 1rem;
+      text-align: center; box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer; position: relative; overflow: hidden;
     }
-    .shop-card:hover{transform:scale(1.05);}
-    .shop-card img{max-width:80%;max-height:80%;object-fit:contain;}
-    .shop-name{font-weight:600;}
+    .shop-card::before {
+      content: ""; position: absolute; inset: 0; background: var(--primary); opacity: 0; transition: opacity 0.3s; z-index: 0;
+    }
+    .shop-card:hover { transform: translateY(-10px) scale(1.05); }
+    .shop-card:hover::before { opacity: 0.05; }
+    .shop-card img { max-width: 80px; margin-bottom: 15px; position: relative; z-index: 1; transition: transform 0.5s; }
+    .shop-card:hover img { transform: rotate(360deg); }
+    .shop-name { font-weight: 600; font-size: 1.1rem; position: relative; z-index: 1; }
 
     /* WYDARZENIA */
-    .wydarzenia-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:2rem;
+    .event-card {
+      background: var(--card-bg); border-radius: 20px; overflow: hidden;
+      box-shadow: var(--shadow); transition: transform 0.3s;
     }
-    .event-card{
-      background:#fff;border-radius:8px;overflow:hidden;
-      box-shadow:0 2px 8px rgba(0,0,0,0.08);
-      transition:transform .3s;
+    .event-card img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.5s; }
+    .event-card:hover img { transform: scale(1.1); }
+    .event-card:hover { transform: translateY(-10px); }
+    .event-info { padding: 2rem; }
+    
+    .btn {
+      background: var(--primary); color: #fff; padding: 12px 28px; border: none;
+      border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 1rem;
+      transition: background 0.3s, box-shadow 0.3s; text-transform: uppercase;
     }
-    .event-card:hover{transform:translateY(-4px);}
-    .event-card img{width:100%;height:180px;object-fit:cover;}
-    .event-info{padding:1rem;}
-    .event-info h3{margin:.5rem 0;}
-    .event-info .dates{font-weight:bold;color:#555;}
-    .more-btn{
-      background:#5865F2;color:#fff;border:none;
-      padding:8px 14px;border-radius:6px;cursor:pointer;
-      transition:background .3s;
-    }
-    .more-btn:hover{background:#4752C4;}
+    .btn:hover { background: var(--primary-hover); box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4); }
 
-    /* POPUP */
-    .event-popup{
-      position:fixed;top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.7);display:none;
-      align-items:center;justify-content:center;z-index:2000;
-    }
-    .popup-content{
-      background:#fff;padding:2rem;border-radius:8px;
-      max-width:600px;width:90%;text-align:center;position:relative;
-    }
-    .popup-header-img{width:100%;border-radius:8px;margin-bottom:1rem;}
-    .close-btn{
-      position:absolute;top:10px;right:15px;
-      font-size:2rem;cursor:pointer;color:#333;
-    }
-    .close-btn:hover{color:#d32f2f;}
+    /* FAQ SECTION */
+    .faq-item { background: var(--card-bg); margin-bottom: 10px; border-radius: 10px; overflow: hidden; cursor: pointer; box-shadow: var(--shadow); }
+    .faq-question { padding: 15px 20px; font-weight: bold; display: flex; justify-content: space-between; }
+    .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s; opacity: 0.8; }
+    .faq-item.active .faq-answer { padding: 15px 20px; max-height: 200px; }
 
-    footer{
-      background:#f4f4f4;color:#333;text-align:center;
-      padding:2rem;font-size:.9rem;margin-top:2rem;
-    }
+    /* TOAST NOTIFICATIONS */
+    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--card-bg); color: var(--text-color); padding: 15px 25px; border-radius: 10px; box-shadow: var(--shadow); border-left: 5px solid var(--accent); animation: slideInRight 0.5s forwards, fadeOut 0.5s 4.5s forwards; }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; transform: translateY(20px); } }
+
+    /* BACK TO TOP */
+    #backToTop { position: fixed; bottom: 30px; left: 30px; background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; display: none; box-shadow: var(--shadow); z-index: 1000; transition: transform 0.3s; }
+    #backToTop:hover { transform: translateY(-5px); }
+
+    footer { background: var(--card-bg); padding: 3rem; text-align: center; margin-top: 3rem; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <div class="ad-banner" id="ad1">🎉 MlodyDorosly został nowym imieniem centrum! 🎉</div>
+
   <nav class="navbar">
     <h1>Centrum Handlowe OB</h1>
-    <ul>
-      <li><a href="#sklepy">Sklepy</a></li>
-      <li><a href="#gastronomia">Gastronomia</a></li>
-      <li><a href="#wydarzenia">Wydarzenia</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-    </ul>
+    <div class="nav-tools">
+      <span id="clock" style="font-weight: 600; font-variant-numeric: tabular-nums;">00:00:00</span>
+      <input type="text" id="searchInput" placeholder="Szukaj sklepu...">
+      <button class="btn-icon" id="themeToggle" title="Zmień motyw">🌙</button>
+    </div>
   </nav>
 
-
-
-  <!-- NOWY BANER -->
-  <div class="banner">
-    <h2>HALLOWEENOWY FESTYN</h2><br>
-    
-  </div>
-
-  <!-- SKLEPY -->
-  <section id="sklepy">
-    <h2>Kategorie Sklepów</h2>
-    <div class="shops-grid">
-      <div class="shop-card"><img src="https://imgur.com/yXsDD54.png" alt="KFC"></div>
-      <div class="shop-card shop-name">Dach pod Chomikiem</div>
-      <div class="shop-card"><img src="https://imgur.com/vyaF5Qx.png" alt="McDonald's"></div>
-      <div class="shop-card shop-name">Wojan Shop</div>
-      <div class="shop-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/512px-H%26M-Logo.svg.png" alt="H&M"></div>
-      <div class="shop-card shop-name">Podpisy</div>
-      <div class="shop-card"><img src="https://imgur.com/IFxfLcj.png" alt="Logo"></div>
-      <div class="shop-card"><img src="https://imgur.com/JPyJaTs.png" alt="Logo"></div>
-      <div class="shop-card"><img src="https://imgur.com/Eb7epic.png" alt="Logo"></div>
-      <div class="shop-card shop-name">Sklep 5zymix_</div>
-    <div class="shop-card shop-name">Informacja</div>
-    <div class="shop-card shop-name">Sklep Gierkauboba</div>
-    <div class="shop-card shop-name">Piekarnia u Emilki</div>
-    <div class="shop-card shop-name">Sklep u różyczki</div>
-    <div class="shop-card shop-name">Sklep Pendziwiarta</div>
-    <div class="shop-card shop-name">Muzeum centrum</div>
-    <div class="shop-card shop-name">Sklep budowlany wiktrexa
-    </div><div class="shops-grid">
-    
+  <header class="hero">
+    <div class="hero-content">
+      <h2 id="greeting">Witaj w Centrum!</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 30px;">Największe centrum handlowe na Oneblocku</p>
+      <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" width="20" style="filter: invert(1);" alt="Discord">
+        Dołącz na Discord
+      </a>
     </div>
+  </header>
 
-  </section>
+  <div class="ad-banner" style="background: linear-gradient(45deg, #fceabb, #f8b500); color: #333;">🔥 REKLAMA: Kupując dowolny produkt w Wytwórni Serwerów otrzymasz zniżkę -20%! 🔥</div>
 
-  <!-- WYDARZENIA -->
-  <section id="wydarzenia">
-    <h2>Aktualne Wydarzenia</h2>
-    <div class="wydarzenia-grid">
+  <div class="container">
+    <section id="sklepy">
+      <h2 class="section-title">Katalog Sklepów</h2>
+      <div class="shops-grid" id="shopsContainer">
+        </div>
+      <div id="noResults" style="display: none; text-align: center; width: 100%; grid-column: 1 / -1; font-size: 1.2rem; color: var(--accent);">Nie znaleziono sklepu :(</div>
+    </section>
+
+    <section id="wydarzenia" style="margin-top: 5rem;">
+      <h2 class="section-title">Aktualne Wydarzenia</h2>
       <div class="event-card">
-        <img src="https://imgur.com/qlvxw39.png" alt="Wydarzenie">
+        <img src="https://imgur.com/Sp59mVC.png" alt="Wydarzenie">
         <div class="event-info">
-          <h3>HALLOWEENOWY FESTYN W CENTRUM</h3>
-          <p>halloweenowy festiwal w centrum. Specjalne wydarzenie z okazji otwarcia centrum po remoncie...</p>
-          <p class="dates">wkrótce...</p>
-          <button class="more-btn">Więcej</button>
+          <h3>OTWARCIE SERWERA kaczkamc!</h3>
+          <p style="margin: 15px 0; line-height: 1.6;">Wkrótce...</p>
+          <button class="btn" onclick="alert('Więcej informacji wkrótce na naszym Discordzie!')">Sprawdź szczegóły</button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- POPUP -->
-  <div class="event-popup" id="eventPopup">
-    <div class="popup-content">
-      <span class="close-btn">&times;</span>
-      <img class="popup-header-img" src="https://imgur.com/qlvxw39.png" alt="">
-      <h1>HALLOWEENOWY FESTYN W CENTRUM</h1>
-      <b>ATRAKCJE:</b>
-      <ul>
-        <li>Spotkanie z twórcami z Oneblocka np: Pendziwiart, Zazirek, Gierkauboba, MF_Figa</li>
-        <li>Giveaway kluczy: przygotowaliśmy 64 klucze AFK, 32 rzadkie klucze i 1 anarchiczny klucz</li>
-        <li>Promocje -40% na wszystko</li>
-      </ul>
-      <p><strong>Miejsce:</strong> Centrum handlowe OB >> /is warp kubagood</p>
-      <p><strong>Data:</strong> Wkróce...</p>
-    </div>
+    <div class="ad-banner" style="margin-top: 4rem; background: linear-gradient(45deg, #11998e, #38ef7d);">💎 REKLAMA: Zdobądź Anarchiczny Klucz podczas eventu! 💎</div>
+
+    <section id="faq" style="margin-top: 5rem; max-width: 800px; margin-inline: auto;">
+      <h2 class="section-title">Częste Pytania</h2>
+      <div class="faq-item">
+        <div class="faq-question">Gdzie znajduje się centrum? <span>+</span></div>
+        <div class="faq-answer">Centrum znajduje się na serwerze Anarchia.gg (tryb Oneblock). Wpisz w grze: <strong>/is warp kubagood</strong>.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Kiedy jest otwarte? <span>+</span></div>
+        <div class="faq-answer">Centrum jest dostępne w soboty od 17 - 19:30 i w niedziele od 18 - 19</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Jak wynająć sklep? <span>+</span></div>
+        <div class="faq-answer">Skontaktuj się z administracją przez Discord lub napisz na centrumhandloweob@gmail.com.</div>
+      </div>
+    </section>
   </div>
 
-  <!-- KONTAKT -->
-  <section id="kontakt">
-    <h2>Kontakt</h2>
-    <p>Email: centrumhandloweob@gmail.com</p>
-    <p>Anarchia.gg Oneblock > /is warp kubagood</p>
-  </section>
+  <div class="toast-container" id="toastContainer"></div>
 
-  <div style="text-align:center;">
-    <a href="https://discord.gg/hh9C48qU" target="_blank" class="discord-btn">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" />
-      Dołącz na Discord
-    </a>
-  </div>
+  <button id="backToTop" title="Wróć na górę">↑</button>
 
   <footer>
-    <p>&copy; 2025 Centrum Handlowe OB i.m. Pendziwiatra. Wszelkie prawa zastrzeżone.</p>
+    <h2>Centrum Handlowe OB</h2>
+    <p style="margin-top: 10px; opacity: 0.7;">&copy; 2026 Centrum Handlowe OB i.m. MlodegoDoroslego. Wszelkie prawa zastrzeżone.</p>
   </footer>
 
   <script>
-    const moreBtn = document.querySelector(".more-btn");
-    const popup = document.getElementById("eventPopup");
-    const closeBtn = document.querySelector(".close-btn");
+    // 1. Zegar i Powitanie
+    function updateTimeAndGreeting() {
+      const now = new Date();
+      document.getElementById('clock').innerText = now.toLocaleTimeString('pl-PL');
+      
+      const hour = now.getHours();
+      const greetingEl = document.getElementById('greeting');
+      if(hour < 6) greetingEl.innerText = "Dobrej nocy!";
+      else if(hour < 12) greetingEl.innerText = "Dzień dobry!";
+      else if(hour < 18) greetingEl.innerText = "Witaj popołudniu!";
+      else greetingEl.innerText = "Dobry wieczór!";
+    }
+    setInterval(updateTimeAndGreeting, 1000);
+    updateTimeAndGreeting();
 
-    moreBtn.addEventListener("click", () => {
-      popup.style.display = "flex";
+    // 2. System Motywów (Dark/Light)
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeToggle.innerText = isDark ? '🌙' : '☀️';
     });
 
-    closeBtn.addEventListener("click", () => {
-      popup.style.display = "none";
+    // 3. Generowanie i Filtrowanie Sklepów
+    const shops = [
+      "Dach pod Chomikiem", "Wojan Shop", "Podpisy", "Sklep 5zymix_", 
+      "Informacja", "Sklep Gierkauboba", "Piekarnia u Emilki", "KFC", "McDonald's", "Action", "Decatlon", "Multikino", "Precle u mateusza",
+      "Sklep u różyczki", "Sklep Pendziwiarta", "Muzeum centrum", "Sklep budowlany wiktrexa", "InfluDrop", "Piekarnia SPC", "Bar mleczny", "Toaleta 01", "Kasyno 450ms", "Kasyno Simone", "MediaExpert"
+    ];
+    
+    const shopsContainer = document.getElementById('shopsContainer');
+    const noResults = document.getElementById('noResults');
+
+    function renderShops(filterText = "") {
+      shopsContainer.innerHTML = "";
+      const filtered = shops.filter(shop => shop.toLowerCase().includes(filterText.toLowerCase()));
+      
+      if(filtered.length === 0) {
+        noResults.style.display = "block";
+      } else {
+        noResults.style.display = "none";
+        filtered.forEach(shop => {
+          const div = document.createElement('div');
+          div.className = 'shop-card';
+          div.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/3081/3081986.png" alt="icon"><div class="shop-name">${shop}</div>`;
+          div.addEventListener('click', () => showToast(`Odwiedzasz: ${shop}`));
+          shopsContainer.appendChild(div);
+        });
+      }
+    }
+    renderShops();
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      renderShops(e.target.value);
     });
 
-    window.addEventListener("click", (e) => {
-      if (e.target === popup) popup.style.display = "none";
+    // 4. System Powiadomień (Toasty)
+    const toastMessages = [
+      "Gdy zamówisz coś na Wytworni Serwerów otrzymasz rabat 20%!", 
+    ];
+    
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerText = message;
+      container.appendChild(toast);
+      
+      setTimeout(() => { toast.remove(); }, 5000);
+    }
+
+    setInterval(() => {
+      if(Math.random() > 0.7) {
+        const msg = toastMessages[Math.floor(Math.random() * toastMessages.length)];
+        showToast(msg);
+      }
+    }, 15000);
+
+    // 5. FAQ Akordeon
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if(!isActive) item.classList.add('active');
+      });
+    });
+
+    // 6. Przycisk Powrót do góry
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 300) backBtn.style.display = "block";
+      else backBtn.style.display = "none";
+    });
+    backBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
