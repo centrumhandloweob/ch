@@ -308,8 +308,12 @@
         
         const listaSklepow = [
             { nazwa: "Informacja", lokal: "Lokal #01", kategoria: "inne", wlasciciel: "CH", opis: "Informacja centrum." },
-            { nazwa: "KFC", lokal: "Lokal #02", kategoria: "lokale gastronomiczne", wlasciciel: "MieszkoWita", opis: "Restauracja KFC" }
-
+            { nazwa: "KFC", lokal: "Lokal #02", kategoria: "lokale gastronomiczne", wlasciciel: "MieszkoWita", opis: "Restauracja KFC" },
+{ nazwa: "Multikino", lokal: "Lokal #49", kategoria: "inne", wlasciciel: "CH", opis: "Kino w centrum." },
+{ nazwa: "Lotto", lokal: "Lokal #06", kategoria: "inne", wlasciciel: "KubaCichy14", opis: "Zakład Lotto®. " },
+{ nazwa: "McDonald's", lokal: "Lokal #18", kategoria: "lokale gastronomiczne", wlasciciel: "N/A", opis: "Restauracja McDonald's" },
+{ nazwa: "Toaleta darmowa", lokal: "Lokal #16", kategoria: "inne", wlasciciel: "CH", opis: "Toaleta publiczna darmowa" },
+{ nazwa: "N/A", lokal: "Lokal #09", kategoria: "N/A", wlasciciel: "pogromca2234", opis: "-" }
         ];
 
         // Funkcja generująca strukturę kart na podstawie powyższej tablicy danych
@@ -335,13 +339,13 @@
                                 <span class="text-[10px] font-black tracking-widest text-orange-400 uppercase block">${sklep.lokal}</span>
                                 <h3 class="text-base font-bold text-white mt-0.5 group-hover:text-orange-400 transition-colors">${sklep.nazwa}</h3>
                             </div>
-                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-zinc-900 border border-amber-500/30 text-amber-400 tracking-wider">PRACE TECHNICZNE</span>
+                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-zinc-900 border border-amber-500/30 text-amber-400 tracking-wider">WKRÓTCE</span>
                         </div>
                         <p class="text-slate-400 text-xs leading-relaxed mb-4">${sklep.opis}</p>
                     </div>
                     <div class="pt-3 border-t border-white/5 flex items-center justify-between text-[11px]">
                         <div class="text-slate-500">Właściciel: <span class="text-slate-300 font-semibold">${sklep.wlasciciel}</span></div>
-                        <div class="text-slate-500">Kat: <span class="text-slate-300 font-semibold capitalize">${sklep.kategoria}</span></div>
+                        <div class="text-slate-500">Kategoria: <span class="text-slate-300 font-semibold capitalize">${sklep.kategoria}</span></div>
                     </div>
                 `;
                 container.appendChild(card);
