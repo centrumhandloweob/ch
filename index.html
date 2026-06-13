@@ -82,6 +82,15 @@
             transform: rotate(180deg);
             color: #f97316;
         }
+
+        /* Ulepszony wygląd ikon w cenniku */
+        .price-icon-wrapper {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover .price-icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            background-color: rgba(249, 115, 22, 0.2);
+        }
     </style>
 </head>
 <body class="relative min-h-screen font-sans antialiased selection:bg-orange-500 selection:text-white">
@@ -99,7 +108,6 @@
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
                 <a href="#home" class="hover:text-orange-400 transition-colors">Home</a>
-                
                 <a href="#sklepy" class="hover:text-orange-400 transition-colors">Wyszukiwarka Sklepów</a>
                 <a href="#oferta" class="hover:text-orange-400 transition-colors">Wynajem lokali</a>
                 <a href="#faq" class="hover:text-orange-400 transition-colors">FAQ</a>
@@ -134,8 +142,8 @@
             </a>
         </div>
 
-           <!-- Hero Section -->
-        <div class="text-center max-w-3xl mx-auto mb-24 relative">
+        <!-- Hero Section -->
+        <div class="text-center max-w-3xl mx-auto mb-20 relative">
             <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[500px] glow-radial pointer-events-none z-0"></div>
             
             <span class="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-zinc-900/90 text-orange-400 border border-zinc-800 mb-8 uppercase tracking-widest shadow-inner shadow-black">
@@ -161,7 +169,30 @@
             </div>
         </div>
 
-    
+        <!-- NOWA SEKCJA: Dlaczego warto i statystyki -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24 relative z-10">
+            <div class="p-6 rounded-3xl glass-card flex flex-col items-center text-center tilt-card">
+                <div class="w-12 h-12 mb-4 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+                <h3 class="text-white font-bold mb-2">Ogromny ruch</h3>
+                <p class="text-slate-400 text-xs">Setki odwiedzających każdego dnia gwarantują znakomitą sprzedaż Twoich produktów.</p>
+            </div>
+            <div class="p-6 rounded-3xl glass-card flex flex-col items-center text-center tilt-card">
+                <div class="w-12 h-12 mb-4 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 class="text-white font-bold mb-2">Bezpieczeństwo</h3>
+                <p class="text-slate-400 text-xs">Cały teren centrum jest odpowiednio zabezpieczony, więc nie musisz martwić się o swoje mienie. Wszyscy pracownicy centrum mają włączony Replay Mod gdy centrum jest otwarte.</p>
+            </div>
+            <div class="p-6 rounded-3xl glass-card flex flex-col items-center text-center tilt-card">
+                <div class="w-12 h-12 mb-4 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+                <h3 class="text-white font-bold mb-2">Prestiżowa lokacja</h3>
+                <p class="text-slate-400 text-xs">Posiadanie lokalu w pierwszym takim centrum buduje zaufanie i renomę wśród graczy.</p>
+            </div>
+        </div>
 
         <div id="sklepy" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
             
@@ -194,13 +225,22 @@
                 </div>
 
                 <div id="noResultsAlert" class="hidden p-8 text-center glass-card rounded-2xl border-dashed border-white/10">
-                    <p class="text-sm text-slate-400">Brak boksów spełniających kryteria wyszukiwania.</p>
+                    <p class="text-sm text-slate-400">Brak lokali spełniających kryteria wyszukiwania.</p>
                 </div>
 
                 <div id="shopsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    </div>
+                    <!-- Dynamicznie wczytywane z JS -->
+                </div>
 
-                <div class="tilt-card p-6 rounded-3xl glass-card relative overflow-hidden group">
+                <!-- NOWOŚĆ: Przycisk pokaż więcej/mniej -->
+                <div id="toggleShopsContainer" class="text-center pt-2 hidden">
+                    <button id="toggleShopsBtn" onclick="toggleShops()" class="px-6 py-2.5 bg-white/5 hover:bg-orange-500/20 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-white/10 transition-all shadow-md flex items-center gap-2 mx-auto">
+                        Pokaż więcej 
+                        <svg id="toggleIcon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+
+                <div class="tilt-card p-6 rounded-3xl glass-card relative overflow-hidden group mt-6">
                     <span class="text-[10px] font-bold text-orange-400 uppercase tracking-widest block mb-2">GALERIA</span>
                     <h3 class="text-xl font-bold text-white mb-4">Projekt nowego centrum:</h3>
                     <div class="rounded-2xl overflow-hidden border border-white/10 bg-black aspect-video flex items-center justify-center relative shadow-inner">
@@ -213,39 +253,73 @@
 
             <div class="lg:col-span-5 space-y-6">
                 
-                <div id="oferta" class="p-6 rounded-3xl glass-card">
-                    <h2 class="text-lg font-bold text-white mb-1 tracking-tight">Cennik wynajmu lokali</h2>
-                    <p class="text-xs text-slate-400 mb-4">Wybierz rozmiar swojego lokalu!</p>
+                <!-- NOWOŚĆ: Ulepszony Cennik -->
+                <div id="oferta" class="p-6 rounded-3xl glass-card relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <h2 class="text-xl font-extrabold text-white mb-1 tracking-tight">Cennik wynajmu lokali</h2>
+                    <p class="text-xs text-slate-400 mb-6">Wybierz rozmiar idealnie dopasowany do Twoich potrzeb biznesowych.</p>
                     
-                    <div class="space-y-3">
-                        <div class="p-3.5 bg-zinc-950/80 rounded-xl border border-white/5 flex justify-between items-center hover:border-orange-500/20 transition-all">
-                            <div>
-                                <h4 class="text-sm font-bold text-white">Mały lokal</h4>
-                                <p class="text-[11px] text-slate-400"></p>
+                    <div class="space-y-4">
+                        
+                        <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-white/5 flex items-center gap-4 hover:border-orange-500/40 transition-all shadow-lg group">
+                            <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center text-slate-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                             </div>
-                            <span class="text-xs font-bold bg-white/5 px-2 py-1 rounded text-slate-300">$100k/miesięcznie</span>
-                        </div>
-                         <div class="p-3.5 bg-zinc-950/80 rounded-xl border border-white/5 flex justify-between items-center hover:border-orange-500/20 transition-all">
-                            <div>
-                                <h4 class="text-sm font-bold text-white">Średni lokal</h4>
-                                <p class="text-[11px] text-slate-400"></p>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors">Mały lokal</h4>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Idealny na początek</p>
                             </div>
-                            <span class="text-xs font-bold bg-white/5 px-2 py-1 rounded text-slate-300">$500k/miesięcznie</span>
-                        </div>
-                       <div class="p-3.5 bg-zinc-950/80 rounded-xl border border-white/5 flex justify-between items-center hover:border-orange-500/20 transition-all">
-                            <div>
-                                <h4 class="text-sm font-bold text-white">Duży lokal</h4>
-                                <p class="text-[11px] text-slate-400"></p>
+                            <div class="text-right">
+                                <span class="block text-sm font-black text-white">$100k</span>
+                                <span class="block text-[9px] text-slate-500 uppercase tracking-wider">miesięcznie</span>
                             </div>
-                            <span class="text-xs font-bold bg-white/5 px-2 py-1 rounded text-slate-300">$1MLN/miesięcznie</span>
                         </div>
- <div class="p-3.5 bg-zinc-950/80 rounded-xl border border-white/5 flex justify-between items-center hover:border-orange-500/20 transition-all">
-                            <div>
-                                <h4 class="text-sm font-bold text-white">Bardzo duży lokal</h4>
-                                <p class="text-[11px] text-slate-400"></p>
+
+                        <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-white/5 flex items-center gap-4 hover:border-orange-500/40 transition-all shadow-lg group relative overflow-hidden">
+                            <!-- Popular Badge -->
+                            <div class="absolute -right-6 top-3 bg-orange-500 text-white text-[9px] font-black uppercase tracking-widest py-0.5 px-8 transform rotate-45">POPULARNY</div>
+                            
+                            <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex flex-shrink-0 items-center justify-center text-orange-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
-                            <span class="text-xs font-bold bg-white/5 px-2 py-1 rounded text-slate-300">$2MLN/miesięcznie</span>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors">Średni lokal</h4>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Standardowa powierzchnia</p>
+                            </div>
+                            <div class="text-right pr-4">
+                                <span class="block text-sm font-black text-white">$500k</span>
+                                <span class="block text-[9px] text-slate-500 uppercase tracking-wider">miesięcznie</span>
+                            </div>
                         </div>
+
+                        <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-white/5 flex items-center gap-4 hover:border-orange-500/40 transition-all shadow-lg group">
+                            <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center text-slate-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-bold text-white group-hover:text-orange-400 transition-colors">Duży lokal</h4>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Dla wymagających graczy</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-sm font-black text-white">$1MLN</span>
+                                <span class="block text-[9px] text-slate-500 uppercase tracking-wider">miesięcznie</span>
+                            </div>
+                        </div>
+
+                        <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-amber-500/20 flex items-center gap-4 hover:border-amber-500/50 transition-all shadow-[0_0_15px_rgba(245,158,11,0.05)] group">
+                            <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-shrink-0 items-center justify-center text-amber-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-bold text-amber-400 group-hover:text-amber-300 transition-colors">Bardzo duży lokal</h4>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Najlepsza widoczność</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-sm font-black text-amber-400">$2MLN</span>
+                                <span class="block text-[9px] text-slate-500 uppercase tracking-wider">miesięcznie</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -274,8 +348,6 @@
                                 <p>Zgłoszenia przyjmowane są za pośrednictwem ticketa na naszym serwerze Discord. </p>
                             </div>
                         </div>
-
-                        
                     </div>
                 </div>
 
@@ -283,7 +355,7 @@
                     <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-orange-500/10 rounded-full blur-xl transition-transform"></div>
                     <h3 class="text-base font-bold text-white mb-1">Zgłoś chęć wynajmu lokalu</h3>
                     
-                    <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="w-full py-2.5 bg-white text-black hover:bg-slate-200 text-xs font-bold rounded-xl block transition-all shadow-md">
+                    <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="w-full py-2.5 bg-white text-black hover:bg-slate-200 text-xs font-bold rounded-xl block transition-all shadow-md mt-4 relative z-10">
                         Złóż wniosek przez Discord
                     </a>
                 </div>
@@ -295,7 +367,6 @@
     <footer class="relative z-10 border-t border-white/5 bg-black/60 backdrop-blur-md py-8 text-center text-slate-500 text-xs">
         <div class="max-w-7xl mx-auto px-6">
             <p class="mb-1">&copy; 2026 Centrum Handlowe OB. Wszelkie prawa zastrzeżone.</p>
-            
         </div>
     </footer>
 
@@ -309,14 +380,19 @@
         const listaSklepow = [
             { nazwa: "Informacja", lokal: "Lokal #01", kategoria: "inne", wlasciciel: "CH", opis: "Informacja centrum." },
             { nazwa: "KFC", lokal: "Lokal #02", kategoria: "lokale gastronomiczne", wlasciciel: "MieszkoWita", opis: "Restauracja KFC" },
-{ nazwa: "Multikino", lokal: "Lokal #49", kategoria: "inne", wlasciciel: "CH", opis: "Kino w centrum." },
-{ nazwa: "Lotto", lokal: "Lokal #06", kategoria: "inne", wlasciciel: "KubaCichy14", opis: "Zakład Lotto®. " },
-{ nazwa: "McDonald's", lokal: "Lokal #18", kategoria: "lokale gastronomiczne", wlasciciel: "N/A", opis: "Restauracja McDonald's" },
-{ nazwa: "Toaleta darmowa", lokal: "Lokal #16", kategoria: "inne", wlasciciel: "CH", opis: "Toaleta publiczna darmowa" },
-{ nazwa: "N/A", lokal: "Lokal #09", kategoria: "N/A", wlasciciel: "pogromca2234", opis: "-" }
+            { nazwa: "Multikino", lokal: "Lokal #49", kategoria: "inne", wlasciciel: "CH", opis: "Kino w centrum." },
+            { nazwa: "Lotto", lokal: "Lokal #06", kategoria: "inne", wlasciciel: "KubaCichy14", opis: "Zakład Lotto®. " },
+            { nazwa: "McDonald's", lokal: "Lokal #18", kategoria: "lokale gastronomiczne", wlasciciel: "N/A", opis: "Restauracja McDonald's" },
+            { nazwa: "Toaleta darmowa", lokal: "Lokal #16", kategoria: "inne", wlasciciel: "CH", opis: "Toaleta publiczna darmowa" },
+            { nazwa: "N/A", lokal: "Lokal #09", kategoria: "N/A", wlasciciel: "pogromca2234", opis: "-" }
         ];
 
-        // Funkcja generująca strukturę kart na podstawie powyższej tablicy danych
+        // Zmienne globalne do sterowania widocznością
+        let activeCategory = 'all';
+        let shopsExpanded = false;
+        const defaultVisibleCount = 4;
+
+        // Funkcja generująca strukturę kart
         function renderShops() {
             const container = document.getElementById('shopsContainer');
             container.innerHTML = ''; // czyszczenie kontenera
@@ -351,21 +427,25 @@
                 container.appendChild(card);
             });
 
-            // Aktywacja trójwymiarowego efektu TILT dla nowo stworzonych kart
             initTiltEffect();
+            filterShops();
         }
 
         // ==========================================
-        // SYSTEM WYSZUKIWANIA I FILTRACJI
+        // SYSTEM WYSZUKIWANIA I FILTRACJI (z Pokaż więcej)
         // ==========================================
         const searchInput = document.getElementById('shopSearch');
         const noResultsAlert = document.getElementById('noResultsAlert');
-        let activeCategory = 'all';
+        const toggleContainer = document.getElementById('toggleShopsContainer');
+        const toggleBtn = document.getElementById('toggleShopsBtn');
+        const toggleIcon = document.getElementById('toggleIcon');
 
         function filterShops() {
             const query = searchInput.value.toLowerCase().trim();
             const cards = document.querySelectorAll('.shop-card');
-            let visibleCount = 0;
+            
+            // Zbierz wszystkie karty pasujące do filtrów
+            let matchedCards = [];
 
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
@@ -377,28 +457,53 @@
                 const matchesCategory = (activeCategory === 'all' || category === activeCategory);
 
                 if (matchesSearch && matchesCategory) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
+                    matchedCards.push(card);
                 }
+                // Najpierw ukryj wszystkie
+                card.style.display = 'none';
             });
 
-            if (visibleCount === 0) {
+            // Wyświetl na podstawie stanu expand (Pokaż więcej/mniej)
+            const limit = shopsExpanded ? matchedCards.length : Math.min(defaultVisibleCount, matchedCards.length);
+            
+            for (let i = 0; i < limit; i++) {
+                matchedCards[i].style.display = 'flex';
+            }
+
+            // Zarządzanie wiadomością "brak wyników"
+            if (matchedCards.length === 0) {
                 noResultsAlert.classList.remove('hidden');
             } else {
                 noResultsAlert.classList.add('hidden');
             }
+
+            // Zarządzanie przyciskiem "Pokaż więcej / Pokaż mniej"
+            if (matchedCards.length > defaultVisibleCount) {
+                toggleContainer.classList.remove('hidden');
+                if (shopsExpanded) {
+                    toggleBtn.innerHTML = `Pokaż mniej <svg class="w-4 h-4 transform rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                } else {
+                    toggleBtn.innerHTML = `Pokaż więcej (${matchedCards.length - defaultVisibleCount}) <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                }
+            } else {
+                toggleContainer.classList.add('hidden');
+            }
+        }
+
+        // Funkcja obsługująca kliknięcie w przycisk "Pokaż więcej/mniej"
+        function toggleShops() {
+            shopsExpanded = !shopsExpanded;
+            filterShops();
         }
 
         function filterCategory(cat) {
             activeCategory = cat;
+            // Resetujemy stan przy zmianie kategorii by było widać 4 sklepy
+            shopsExpanded = false;
             
             const categoriesIds = ['all', 'lokale-gastronomiczne', 'budowa', 'usługi', 'redstone', 'inne'];
             categoriesIds.forEach(id => {
                 const btn = document.getElementById(`cat-${id}`);
-                const normalizedId = id.replace('-', ' ');
-                
                 if (id === cat || (cat === 'lokale gastronomiczne' && id === 'lokale-gastronomiczne')) {
                     btn.className = "px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold border border-orange-500/20 transition-all";
                 } else {
@@ -409,7 +514,11 @@
             filterShops();
         }
 
-        searchInput.addEventListener('input', filterShops);
+        searchInput.addEventListener('input', () => {
+            // Zresetuj rozwinięcie gdy użytkownik wpisuje w wyszukiwarkę
+            shopsExpanded = false;
+            filterShops();
+        });
 
         // ==========================================
         // EFEKT TRÓJWYMIAROWY (3D TILT EFFECT)
