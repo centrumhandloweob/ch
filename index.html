@@ -104,6 +104,33 @@
 
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent z-20"></div>
 
+    <div id="authModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="glass-card p-8 rounded-3xl w-full max-w-sm border border-orange-500/30 shadow-2xl relative">
+            <button onclick="window.closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">✕</button>
+            <h2 id="authTitle" class="text-xl font-extrabold text-white mb-6 text-center">Logowanie</h2>
+            
+            <form id="authForm" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Nick Minecraft</label>
+                    <input type="text" id="authNick" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Hasło</label>
+                    <input type="password" id="authPass" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div id="authPassConfirmContainer" class="hidden">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Powtórz Hasło</label>
+                    <input type="password" id="authPassConfirm" class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full mt-2 px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-orange-600/20 transition duration-300">Zaloguj się</button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <button id="authToggleBtn" onclick="window.toggleAuthMode()" class="text-[11px] text-slate-400 hover:text-orange-400 transition-colors">Nie masz konta? Zarejestruj się</button>
+            </div>
+        </div>
+    </div>
+
     <nav class="sticky top-0 relative z-30 w-full glass-card border-b border-white/5 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -117,12 +144,21 @@
                 <a href="#faq" class="hover:text-orange-400 transition-colors">FAQ</a>
             </div>
             <div class="flex items-center gap-3">
-                <button id="adminToggleBtn" onclick="window.toggleAdminPanel()" class="px-4 py-2 border border-white/10 hover:border-orange-500/50 text-slate-300 hover:text-orange-400 text-xs font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5">
-                    ⚙️ Panel Admina
-                </button>
-                <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-orange-600/20 transition-all duration-300 border border-white/10 flex items-center gap-2 transform hover:-translate-y-0.5">
+                <div id="loggedOutButtons" class="flex gap-2">
+                    <button onclick="window.openAuthModal('login')" class="px-4 py-2 border border-white/10 hover:border-orange-500/50 text-slate-300 hover:text-orange-400 text-xs font-bold rounded-xl transition-all duration-300">Logowanie</button>
+                </div>
+                
+                <div id="loggedInButtons" class="hidden flex items-center gap-2">
+                    <span id="userGreeting" class="text-xs font-bold text-orange-400 mr-2 hidden sm:block"></span>
+                    <button id="adminToggleBtn" onclick="window.toggleAdminPanel()" class="px-4 py-2 border border-orange-500/50 bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 text-xs font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.2)]">
+                        ⚙️ Panel Lokalu
+                    </button>
+                    <button onclick="window.logoutUser()" class="px-3 py-2 border border-white/10 hover:border-red-500/50 text-slate-400 hover:text-red-400 text-xs font-bold rounded-xl transition-all duration-300">Wyloguj</button>
+                </div>
+
+                <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="hidden sm:flex px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-orange-600/20 transition-all duration-300 border border-white/10 items-center gap-2 transform hover:-translate-y-0.5">
                     <svg class="w-4 h-4 fill-currentColor" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,93,0c.82.68,1.68,1.37,2.58,2a68.43,68.43,0,0,1-10.5,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31.06-18.83C130.1,49.22,123.39,26.47,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.92,46,53.72,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.16,46,96,53,91,65.69,84.69,65.69Z"/></svg>
-                    Discord Serwera
+                    Discord
                 </a>
             </div>
         </div>
@@ -133,11 +169,11 @@
             <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                    <h2 id="adminPanelTitle" class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
                         Panel Zarządzania Lokalami CH
                     </h2>
-                    <p class="text-slate-400 text-xs mt-0.5">Dodawaj, usuwaj oraz modyfikuj parametry lokali bezpośrednio w bazie Firebase.</p>
+                    <p id="adminPanelDesc" class="text-slate-400 text-xs mt-0.5">Zarządzaj informacjami o lokalach.</p>
                 </div>
                 <button onclick="window.closeAdminPanel()" class="text-slate-400 hover:text-white text-xs px-3 py-1 bg-white/5 rounded-lg border border-white/5 transition">Zamknij ×</button>
             </div>
@@ -149,11 +185,12 @@
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Nazwa Lokalu</label>
                     <input type="text" id="formShopName" placeholder="np. KFC" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
                 </div>
-                <div>
+
+                <div class="boss-only">
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Numer Lokalu / Boks</label>
-                    <input type="text" id="formShopLokal" placeholder="np. Lokal #02" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                    <input type="text" id="formShopLokal" placeholder="np. Lokal #02" class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
                 </div>
-                <div>
+                <div class="boss-only">
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Poziom (Piętro)</label>
                     <select id="formShopLevel" class="w-full px-4 py-2.5 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
                         <option value="0">Poziom 0</option>
@@ -161,11 +198,15 @@
                         <option value="2">Poziom 2</option>
                     </select>
                 </div>
-                <div>
+                <div class="boss-only">
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Właściciel</label>
-                    <input type="text" id="formShopOwner" placeholder="np. MieszkoWita" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                    <input type="text" id="formShopOwner" placeholder="np. MieszkoWita" class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
                 </div>
-                <div>
+                <div class="boss-only">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Przypisany Pracownik (Nick)</label>
+                    <input type="text" id="formShopEmployee" placeholder="Nick do logowania" class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div class="boss-only">
                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Kategoria</label>
                     <select id="formShopCategory" class="w-full px-4 py-2.5 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
                         <option value="lokale gastronomiczne">Lokale Gastronomiczne</option>
@@ -194,10 +235,41 @@
                 </div>
             </form>
 
-            <!-- NOWA SEKCJA: Pełna lista wszystkich lokali w panelu admina -->
-            <div id="adminManagementList" class="mt-8 pt-6 border-t border-white/10">
+            <div id="adminFinancesSection" class="mt-10 pt-6 border-t border-white/10 boss-only hidden">
                 <h3 class="text-xs font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
-                    📋 Szybkie zarządzanie wszystkimi lokalami (${window.listaSklepow ? window.listaSklepow.length : 0})
+                    💰 Finanse i rozliczenia ze sklepami
+                </h3>
+                
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 mb-6">
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-wider">Oznacz jako zapłacone</h4>
+                    <form id="financeForm" class="flex flex-col sm:flex-row gap-3">
+                        <input type="month" id="finMonth" required class="px-4 py-2 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none">
+                        <input type="text" id="finNick" placeholder="Nick pracownika/właściciela" required class="flex-grow px-4 py-2 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none">
+                        <input type="number" id="finAmount" placeholder="Kwota ($)" required class="px-4 py-2 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none">
+                        <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg transition duration-300">Zapisz wpłatę</button>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-white/5">
+                    <table class="w-full text-left text-xs text-slate-300 border-collapse bg-black/40">
+                        <thead>
+                            <tr class="border-b border-white/10 bg-white/5 text-slate-400 uppercase tracking-wider text-[10px]">
+                                <th class="py-3 px-4">Miesiąc</th>
+                                <th class="py-3 px-4">Nick Obsługi/Właściciela</th>
+                                <th class="py-3 px-4">Kwota</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4 text-right">Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminFinancesTableBody" class="divide-y divide-white/5">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="adminManagementList" class="mt-10 pt-6 border-t border-white/10 boss-only hidden">
+                <h3 class="text-xs font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
+                    📋 Szybkie zarządzanie wszystkimi lokalami (<span id="sklepyCount">0</span>)
                 </h3>
                 <div class="overflow-x-auto rounded-xl border border-white/5">
                     <table class="w-full text-left text-xs text-slate-300 border-collapse bg-black/40">
@@ -205,16 +277,13 @@
                             <tr class="border-b border-white/10 bg-white/5 text-slate-400 uppercase tracking-wider text-[10px]">
                                 <th class="py-3 px-4">Boks</th>
                                 <th class="py-3 px-4">Nazwa Lokalu</th>
-                                <th class="py-3 px-4">Poziom</th>
-                                <th class="py-3 px-4">Właściciel</th>
-                                <th class="py-3 px-4">Kategoria</th>
+                                <th class="py-3 px-4">Pracownik</th>
                                 <th class="py-3 px-4">Status</th>
                                 <th class="py-3 px-4 text-right">Akcje</th>
                             </tr>
                         </thead>
                         <tbody id="adminShopsTableBody" class="divide-y divide-white/5">
-                            <!-- Dane ładowane dynamicznie przez JS -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -443,8 +512,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
+        import { getFirestore, collection, onSnapshot, doc, setDoc, updateDoc, deleteDoc, getDoc, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
         const firebaseConfig = {
             apiKey: "AIzaSyB0x9vMbLmQEFYEHcivEzJoJQzJpEzXCjw",
             authDomain: "centrum-handlowe-ob.firebaseapp.com",
@@ -458,19 +527,24 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Globalne zmienne
         window.listaSklepow = [];
+        window.listaFinansow = [];
         let activeCategory = 'all';
         let shopsExpanded = false;
-        let isAdminLoggedIn = false;
+        
+        // Zmienne autoryzacji
+        window.currentUserNick = null;
+        window.isBoss = false;
+        let isLoginMode = true;
         const defaultVisibleCount = 4;
 
-        // POBIERANIE I AUTOMATYCZNA AKTUALIZACJA Z BAZY NA ŻYWO
+        // POBIERANIE DANYCH LOKALI
         onSnapshot(collection(db, "sklepy"), (snapshot) => {
             let sklepy = [];
             snapshot.forEach((doc) => {
                 sklepy.push({ id: doc.id, ...doc.data() });
             });
-            // Sortowanie boksów numerycznie (np. Lokal #01, Lokal #02)
             sklepy.sort((a, b) => {
                 const boksA = a.lokal || '';
                 const boksB = b.lokal || '';
@@ -478,19 +552,138 @@
             });
             window.listaSklepow = sklepy;
             window.renderShops();
-            window.renderAdminShops();
-        }, (error) => {
-            console.error("Błąd pobierania danych z Firestore:", error);
+            if (document.getElementById('adminPanelSection').classList.contains('hidden') === false) {
+                window.renderAdminShops();
+            }
         });
 
-        // GENEROWANIE KART NA STRONIE DLA ZWYKŁYCH UŻYTKOWNIKÓW
+        // POBIERANIE DANYCH FINANSÓW (tylko szef potrzebuje, ale podłączamy nasłuch)
+        const qFinances = query(collection(db, "finanse"), orderBy("miesiac", "desc"));
+        onSnapshot(qFinances, (snapshot) => {
+            let finanse = [];
+            snapshot.forEach((doc) => {
+                finanse.push({ id: doc.id, ...doc.data() });
+            });
+            window.listaFinansow = finanse;
+            if(window.isBoss) window.renderFinances();
+        });
+
+        // --- SYSTEM AUTORYZACJI (Logowanie / Rejestracja) ---
+        window.openAuthModal = function(mode = 'login') {
+            const modal = document.getElementById('authModal');
+            modal.classList.remove('hidden');
+            if (mode === 'login' && !isLoginMode) window.toggleAuthMode();
+            if (mode === 'register' && isLoginMode) window.toggleAuthMode();
+        };
+
+        window.closeAuthModal = function() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authForm').reset();
+        };
+
+        window.toggleAuthMode = function() {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('authTitle');
+            const toggleBtn = document.getElementById('authToggleBtn');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const confirmContainer = document.getElementById('authPassConfirmContainer');
+            const confirmInput = document.getElementById('authPassConfirm');
+
+            if (isLoginMode) {
+                title.innerText = "Logowanie";
+                toggleBtn.innerText = "Nie masz konta? Zarejestruj się";
+                submitBtn.innerText = "Zaloguj się";
+                confirmContainer.classList.add('hidden');
+                confirmInput.required = false;
+            } else {
+                title.innerText = "Rejestracja";
+                toggleBtn.innerText = "Masz już konto? Zaloguj się";
+                submitBtn.innerText = "Zarejestruj się";
+                confirmContainer.classList.remove('hidden');
+                confirmInput.required = true;
+            }
+        };
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nick = document.getElementById('authNick').value.trim();
+            const pass = document.getElementById('authPass').value;
+
+            if (isLoginMode) {
+                // LOGOWANIE
+                if (nick === 'kubagood' && pass === 'kubagood') {
+                    window.loginSuccess(nick, true);
+                } else {
+                    try {
+                        const userDoc = await getDoc(doc(db, "konta", nick.toLowerCase()));
+                        if (userDoc.exists() && userDoc.data().haslo === pass) {
+                            window.loginSuccess(nick, false);
+                        } else {
+                            alert("Niepoprawny nick lub hasło!");
+                        }
+                    } catch (err) {
+                        alert("Błąd podczas logowania: " + err.message);
+                    }
+                }
+            } else {
+                // REJESTRACJA
+                const passConfirm = document.getElementById('authPassConfirm').value;
+                if (pass !== passConfirm) {
+                    alert("Hasła nie są identyczne!");
+                    return;
+                }
+                if (nick === 'kubagood') {
+                    alert("Ten nick jest zarezerwowany!");
+                    return;
+                }
+                
+                try {
+                    const userRef = doc(db, "konta", nick.toLowerCase());
+                    const docSnap = await getDoc(userRef);
+                    if (docSnap.exists()) {
+                        alert("Konto z tym nickiem już istnieje!");
+                    } else {
+                        await setDoc(userRef, { haslo: pass });
+                        alert("Pomyślnie zarejestrowano! Możesz się teraz zalogować.");
+                        window.toggleAuthMode();
+                    }
+                } catch (err) {
+                    alert("Błąd podczas rejestracji: " + err.message);
+                }
+            }
+        });
+
+        window.loginSuccess = function(nick, bossStatus) {
+            window.currentUserNick = nick;
+            window.isBoss = bossStatus;
+            
+            document.getElementById('loggedOutButtons').classList.add('hidden');
+            document.getElementById('loggedInButtons').classList.remove('hidden');
+            document.getElementById('userGreeting').innerText = `Witaj, ${nick}`;
+            
+            window.closeAuthModal();
+            window.renderShops(); // Przeładowanie kart, by pokazać ew. przyciski edycji
+        };
+
+        window.logoutUser = function() {
+            window.currentUserNick = null;
+            window.isBoss = false;
+            
+            document.getElementById('loggedOutButtons').classList.remove('hidden');
+            document.getElementById('loggedInButtons').classList.add('hidden');
+            
+            window.closeAdminPanel();
+            window.renderShops();
+        };
+
+        // --- RENDEROWANIE KART LOKALI DLA UŻYTKOWNIKÓW ---
         window.renderShops = function() {
             const container = document.getElementById('shopsContainer');
             if (!container) return;
             container.innerHTML = '';
 
             if (window.listaSklepow.length === 0) {
-                container.innerHTML = '<p class="text-center text-slate-500 col-span-2 py-4 text-xs">Baza danych jest obecnie pusta. Zaloguj się do panelu administratora i dodaj pierwszy boks!</p>';
+                container.innerHTML = '<p class="text-center text-slate-500 col-span-2 py-4 text-xs">Baza danych jest obecnie pusta.</p>';
                 return;
             }
 
@@ -507,17 +700,6 @@
                 let statusColors = "border-amber-500/30 text-amber-400"; // WKRÓTCE
                 if(sklep.status === "OTWARTE") statusColors = "border-emerald-500/30 text-emerald-400";
                 if(sklep.status === "ZAMKNIĘTE") statusColors = "border-rose-500/30 text-rose-400";
-
-                // Narzędzia edycji pod kartami (opcjonalne, zachowane jako funkcja dodatkowa)
-                let adminControls = "";
-                if(isAdminLoggedIn) {
-                    adminControls = `
-                        <div class="mt-3 pt-2 border-t border-white/10 flex gap-2 relative z-20">
-                            <button onclick="window.wczytajDoEdycji('${sklep.id}')" class="text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded hover:bg-orange-500/20 transition">Edytuj</button>
-                            <button onclick="window.usunSklep('${sklep.id}')" class="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded hover:bg-red-500/20 transition">Usuń</button>
-                        </div>
-                    `;
-                }
 
                 card.innerHTML = `
                     <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -536,7 +718,6 @@
                             <div class="text-slate-500">Właściciel: <span class="text-slate-300 font-semibold">${sklep.wlasciciel || 'N/A'}</span></div>
                             <div class="text-slate-500">Kategoria: <span class="text-slate-300 font-semibold capitalize">${sklep.kategoria || 'inne'}</span></div>
                         </div>
-                        ${adminControls}
                     </div>
                 `;
                 container.appendChild(card);
@@ -546,19 +727,149 @@
             window.filterShops();
         };
 
-        // GENEROWANIE LISTY ZARZĄDZANIA W PANELU ADMINA (BEZ PRZEWIJANIA)
+        // --- PANEL ADMINISTRATORA (SZEF / PRACOWNIK) ---
+        window.toggleAdminPanel = function() {
+            const panel = document.getElementById('adminPanelSection');
+            if(panel.classList.contains('hidden')) {
+                if (!window.currentUserNick) {
+                    alert("Musisz być zalogowany!");
+                    return;
+                }
+                
+                panel.classList.remove('hidden');
+                document.getElementById('adminToggleBtn').innerText = "Zamknij Panel";
+                
+                const bossElements = document.querySelectorAll('.boss-only');
+                if (window.isBoss) {
+                    document.getElementById('adminPanelTitle').innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span> Panel Głównego Administratora';
+                    document.getElementById('adminPanelDesc').innerText = "Pełny dostęp do zarządzania wszystkimi lokalami i finansami.";
+                    bossElements.forEach(el => el.classList.remove('hidden'));
+                    window.renderAdminShops();
+                    window.renderFinances();
+                    window.resetAdminForm();
+                } else {
+                    document.getElementById('adminPanelTitle').innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span> Panel Pracownika';
+                    document.getElementById('adminPanelDesc').innerText = "Możesz edytować jedynie nazwę, opis i status swojego lokalu.";
+                    bossElements.forEach(el => el.classList.add('hidden'));
+                    
+                    // Szukanie lokalu przypisanego do pracownika
+                    const myShop = window.listaSklepow.find(s => s.przypisanyPracownik && s.przypisanyPracownik.toLowerCase() === window.currentUserNick.toLowerCase());
+                    if (myShop) {
+                        window.wczytajDoEdycji(myShop.id);
+                        document.getElementById('formCancelBtn').classList.add('hidden'); // Pracownik nie może "anulować" i czyścić formy bo by stracił kontekst
+                    } else {
+                        alert("Nie znaleziono lokalu przypisanego do Twojego nicku.");
+                        window.closeAdminPanel();
+                    }
+                }
+            } else {
+                window.closeAdminPanel();
+            }
+        };
+
+        window.closeAdminPanel = function() {
+            document.getElementById('adminPanelSection').classList.add('hidden');
+            document.getElementById('adminToggleBtn').innerHTML = "⚙️ Panel Lokalu";
+            window.resetAdminForm();
+        };
+
+        document.getElementById('adminStoreForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const shopId = document.getElementById('formShopId').value;
+            let daneSklepu = {};
+
+            if (window.isBoss) {
+                daneSklepu = {
+                    nazwa: document.getElementById('formShopName').value,
+                    lokal: document.getElementById('formShopLokal').value,
+                    poziom: parseInt(document.getElementById('formShopLevel').value, 10) || 0,
+                    wlasciciel: document.getElementById('formShopOwner').value,
+                    przypisanyPracownik: document.getElementById('formShopEmployee').value.trim(),
+                    kategoria: document.getElementById('formShopCategory').value,
+                    status: document.getElementById('formShopStatus').value,
+                    opis: document.getElementById('formShopDesc').value
+                };
+            } else {
+                // Ograniczona edycja dla pracownika
+                if(!shopId) {
+                    alert("Błąd: Brak przypisanego lokalu.");
+                    return;
+                }
+                daneSklepu = {
+                    nazwa: document.getElementById('formShopName').value,
+                    status: document.getElementById('formShopStatus').value,
+                    opis: document.getElementById('formShopDesc').value
+                };
+            }
+
+            try {
+                if(shopId) {
+                    await updateDoc(doc(db, "sklepy", shopId), daneSklepu);
+                    alert("Pomyślnie zaktualizowano dane boksu!");
+                    if(window.isBoss) window.resetAdminForm();
+                } else if(window.isBoss) {
+                    const bezpieczneId = "boks_" + Date.now();
+                    await setDoc(doc(db, "sklepy", bezpieczneId), daneSklepu);
+                    alert("Nowy boks został dodany do bazy!");
+                    window.resetAdminForm();
+                }
+            } catch (error) {
+                alert("Błąd zapisu: " + error.message);
+            }
+        });
+
+        window.wczytajDoEdycji = function(id) {
+            const sklep = window.listaSklepow.find(s => s.id === id);
+            if(sklep) {
+                document.getElementById('formShopId').value = sklep.id;
+                document.getElementById('formShopName').value = sklep.nazwa || '';
+                document.getElementById('formShopStatus').value = sklep.status || 'WKRÓTCE';
+                document.getElementById('formShopDesc').value = sklep.opis || '';
+                
+                if (window.isBoss) {
+                    document.getElementById('formShopLokal').value = sklep.lokal || '';
+                    document.getElementById('formShopLevel').value = sklep.poziom !== undefined ? sklep.poziom : '0';
+                    document.getElementById('formShopOwner').value = sklep.wlasciciel || '';
+                    document.getElementById('formShopEmployee').value = sklep.przypisanyPracownik || '';
+                    document.getElementById('formShopCategory').value = sklep.kategoria || 'inne';
+                    document.getElementById('formCancelBtn').classList.remove('hidden');
+                }
+                document.getElementById('adminPanelSection').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        window.usunSklep = async function(id) {
+            if(!window.isBoss) return;
+            if(confirm("Czy na pewno chcesz bezpowrotnie skasować ten boks?")) {
+                try {
+                    await deleteDoc(doc(db, "sklepy", id));
+                    alert("Boks został usunięty.");
+                } catch (error) {
+                    alert("Wystąpił błąd: " + error.message);
+                }
+            }
+        };
+
+        window.resetAdminForm = function() {
+            if(!window.isBoss) return;
+            document.getElementById('adminStoreForm').reset();
+            document.getElementById('formShopId').value = "";
+            document.getElementById('formShopLevel').value = "0";
+            document.getElementById('formCancelBtn').classList.add('hidden');
+        };
+
+        // RENDEROWANIE TABELI SZEFA
         window.renderAdminShops = function() {
+            if(!window.isBoss) return;
             const tbody = document.getElementById('adminShopsTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            const sectionTitle = document.querySelector('#adminManagementList h3');
-            if (sectionTitle) {
-                sectionTitle.innerText = `📋 Szybkie zarządzanie wszystkimi lokalami (${window.listaSklepow.length})`;
-            }
+            document.getElementById('sklepyCount').innerText = window.listaSklepow.length;
 
             if (window.listaSklepow.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="py-4 text-center text-slate-500 text-xs">Brak lokali w bazie danych. Dodaj pierwszy lokal przy użyciu powyższego formularza.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500 text-xs">Brak lokali.</td></tr>`;
                 return;
             }
 
@@ -573,9 +884,7 @@
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-mono font-bold text-orange-400">${sklep.lokal || 'N/A'}</td>
                     <td class="py-3 px-4 font-bold text-white">${sklep.nazwa || 'Bez nazwy'}</td>
-                    <td class="py-3 px-4 font-semibold text-slate-200">Poziom ${sklep.poziom !== undefined ? sklep.poziom : '0'}</td>
-                    <td class="py-3 px-4 text-slate-400">${sklep.wlasciciel || 'N/A'}</td>
-                    <td class="py-3 px-4 text-slate-400 capitalize">${sklep.kategoria || 'inne'}</td>
+                    <td class="py-3 px-4 text-slate-400">${sklep.przypisanyPracownik || '<span class="opacity-50">Brak</span>'}</td>
                     <td class="py-3 px-4 ${statusColors}">${sklep.status || 'WKRÓTCE'}</td>
                     <td class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
                         <button onclick="window.wczytajDoEdycji('${sklep.id}')" class="text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2.5 py-1 rounded-lg hover:bg-orange-500/30 transition">Edytuj</button>
@@ -586,7 +895,71 @@
             });
         };
 
-        // FILTRY I WYSZUKIWARKA
+        // --- ZARZĄDZANIE FINANSAMI ---
+        document.getElementById('financeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!window.isBoss) return;
+
+            const miesiac = document.getElementById('finMonth').value; // np. "2026-06"
+            const nick = document.getElementById('finNick').value.trim();
+            const kwota = parseFloat(document.getElementById('finAmount').value);
+
+            if(!miesiac || !nick || isNaN(kwota)) {
+                alert("Wypełnij wszystkie pola poprawnie.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "finanse"), {
+                    miesiac: miesiac,
+                    nick: nick,
+                    kwota: kwota,
+                    zaplacone: true,
+                    dataWplaty: new Date().toISOString()
+                });
+                alert("Wpłata została zapisana!");
+                document.getElementById('financeForm').reset();
+            } catch (err) {
+                alert("Błąd dodawania wpłaty: " + err.message);
+            }
+        });
+
+        window.renderFinances = function() {
+            if(!window.isBoss) return;
+            const tbody = document.getElementById('adminFinancesTableBody');
+            tbody.innerHTML = '';
+
+            if (window.listaFinansow.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500 text-xs">Brak zapisanych wpłat.</td></tr>`;
+                return;
+            }
+
+            window.listaFinansow.forEach(wp => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors text-xs text-slate-300";
+                
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono">${wp.miesiac}</td>
+                    <td class="py-3 px-4 font-bold text-white">${wp.nick}</td>
+                    <td class="py-3 px-4 text-emerald-400 font-bold">$${wp.kwota.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-emerald-500">Opłacone</td>
+                    <td class="py-3 px-4 text-right">
+                        <button onclick="window.usunWplate('${wp.id}')" class="text-[10px] font-bold text-red-400 hover:text-red-300">Cofnij/Usuń</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.usunWplate = async function(id) {
+            if(!window.isBoss) return;
+            if(confirm("Na pewno usunąć tę wpłatę z rejestru?")) {
+                await deleteDoc(doc(db, "finanse", id));
+            }
+        };
+
+
+        // --- FILTRY I EFEKTY (istniejące) ---
         const searchInput = document.getElementById('shopSearch');
         const noResultsAlert = document.getElementById('noResultsAlert');
         const toggleContainer = document.getElementById('toggleShopsContainer');
@@ -665,98 +1038,6 @@
             });
         }
 
-        // AKCJE I OBSŁUGA PANELU ADMINA
-        window.toggleAdminPanel = function() {
-            const panel = document.getElementById('adminPanelSection');
-            if(panel.classList.contains('hidden')) {
-                const pin = prompt("Wprowadź hasło do zarządzania boksami CH:");
-                if(pin === "123") { 
-                    isAdminLoggedIn = true;
-                    panel.classList.remove('hidden');
-                    document.getElementById('adminToggleBtn').innerText = "🔒 Wyloguj z Admina";
-                    window.renderShops();
-                    window.renderAdminShops();
-                } else if (pin !== null) {
-                    alert("Niepoprawne hasło dostępowe.");
-                }
-            } else {
-                window.closeAdminPanel();
-            }
-        };
-
-        window.closeAdminPanel = function() {
-            isAdminLoggedIn = false;
-            document.getElementById('adminPanelSection').classList.add('hidden');
-            document.getElementById('adminToggleBtn').innerText = "⚙️ Panel Admina";
-            window.resetAdminForm();
-            window.renderShops();
-        };
-
-        document.getElementById('adminStoreForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const shopId = document.getElementById('formShopId').value;
-            const daneSklepu = {
-                nazwa: document.getElementById('formShopName').value,
-                lokal: document.getElementById('formShopLokal').value,
-                poziom: parseInt(document.getElementById('formShopLevel').value, 10) || 0,
-                wlasciciel: document.getElementById('formShopOwner').value,
-                kategoria: document.getElementById('formShopCategory').value,
-                status: document.getElementById('formShopStatus').value,
-                opis: document.getElementById('formShopDesc').value
-            };
-
-            try {
-                if(shopId) {
-                    await updateDoc(doc(db, "sklepy", shopId), daneSklepu);
-                    alert("Pomyślnie zaktualizowano dane boksu!");
-                } else {
-                    const bezpieczneId = "boks_" + Date.now();
-                    await setDoc(doc(db, "sklepy", bezpieczneId), daneSklepu);
-                    alert("Nowy boks został dodany do bazy Firebase!");
-                }
-                window.resetAdminForm();
-            } catch (error) {
-                alert("Błąd zapisu w Firebase: " + error.message);
-            }
-        });
-
-        window.wczytajDoEdycji = function(id) {
-            const sklep = window.listaSklepow.find(s => s.id === id);
-            if(sklep) {
-                document.getElementById('formShopId').value = sklep.id;
-                document.getElementById('formShopName').value = sklep.nazwa || '';
-                document.getElementById('formShopLokal').value = sklep.lokal || '';
-                document.getElementById('formShopLevel').value = sklep.poziom !== undefined ? sklep.poziom : '0';
-                document.getElementById('formShopOwner').value = sklep.wlasciciel || '';
-                document.getElementById('formShopCategory').value = sklep.kategoria || 'inne';
-                document.getElementById('formShopStatus').value = sklep.status || 'WKRÓTCE';
-                document.getElementById('formShopDesc').value = sklep.opis || '';
-                
-                document.getElementById('formCancelBtn').classList.remove('hidden');
-                document.getElementById('adminPanelSection').scrollIntoView({ behavior: 'smooth' });
-            }
-        };
-
-        window.usunSklep = async function(id) {
-            if(confirm("Czy na pewno chcesz bezpowrotnie skasować ten boks z bazy danych?")) {
-                try {
-                    await deleteDoc(doc(db, "sklepy", id));
-                    alert("Boks został usunięty.");
-                } catch (error) {
-                    alert("Wystąpił błąd podczas usuwania: " + error.message);
-                }
-            }
-        };
-
-        window.resetAdminForm = function() {
-            document.getElementById('adminStoreForm').reset();
-            document.getElementById('formShopId').value = "";
-            document.getElementById('formShopLevel').value = "0";
-            document.getElementById('formCancelBtn').classList.add('hidden');
-        };
-
-        // TRÓJWYMIAROWY EFEKT KART (3D TILT EFFECT)
         window.initTiltEffect = function() {
             const tiltCards = document.querySelectorAll('.tilt-card');
             tiltCards.forEach(card => {
