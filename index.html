@@ -28,7 +28,8 @@
     </script>
     <style>
         body {
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(3, 3, 5, 0.98)), url('https://imgur.com/oAN3zRr.png');
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(3, 3, 5, 0.98)), 
+            url('https://imgur.com/oAN3zRr.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -83,7 +84,6 @@
             color: #f97316;
         }
 
-        /* Ulepszony wygląd ikon w cenniku */
         .price-icon-wrapper {
             transition: all 0.3s ease;
         }
@@ -102,9 +102,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center font-black text-white text-lg shadow-[0_0_15px_rgba(249,115,22,0.4)]">CH</div>
-                <span class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                    Centrum Handlowe OB 
-                </span>
+                <span class="text-lg font-bold tracking-tight text-white flex items-center gap-2">Centrum Handlowe OB</span>
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
                 <a href="#home" class="hover:text-orange-400 transition-colors">Home</a>
@@ -112,7 +110,10 @@
                 <a href="#oferta" class="hover:text-orange-400 transition-colors">Wynajem lokali</a>
                 <a href="#faq" class="hover:text-orange-400 transition-colors">FAQ</a>
             </div>
-            <div>
+            <div class="flex items-center gap-3">
+                <button id="adminToggleBtn" onclick="window.toggleAdminPanel()" class="px-4 py-2 border border-white/10 hover:border-orange-500/50 text-slate-300 hover:text-orange-400 text-xs font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5">
+                    ⚙️ Panel Admina
+                </button>
                 <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-orange-600/20 transition-all duration-300 border border-white/10 flex items-center gap-2 transform hover:-translate-y-0.5">
                     <svg class="w-4 h-4 fill-currentColor" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.9-.65,1.76-1.34,2.58-2a75.58,75.58,0,0,0,93,0c.82.68,1.68,1.37,2.58,2a68.43,68.43,0,0,1-10.5,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31.06-18.83C130.1,49.22,123.39,26.47,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.92,46,53.72,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.16,46,96,53,91,65.69,84.69,65.69Z"/></svg>
                     Discord Serwera
@@ -121,14 +122,106 @@
         </div>
     </nav>
 
+    <div id="adminPanelSection" class="hidden max-w-7xl mx-auto px-6 pt-6 z-40 relative">
+        <div class="p-6 rounded-3xl glass-card border-orange-500/30 shadow-2xl bg-zinc-950/90 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
+                        Panel Zarządzania Lokalami CH
+                    </h2>
+                    <p class="text-slate-400 text-xs mt-0.5">Dodawaj, usuwaj oraz modyfikuj parametry lokali bezpośrednio w bazie Firebase.</p>
+                </div>
+                <button onclick="window.closeAdminPanel()" class="text-slate-400 hover:text-white text-xs px-3 py-1 bg-white/5 rounded-lg border border-white/5 transition">Zamknij ×</button>
+            </div>
+
+            <form id="adminStoreForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="hidden" id="formShopId" value="">
+                
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Nazwa Lokalu</label>
+                    <input type="text" id="formShopName" placeholder="np. KFC" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Numer Lokalu / Boks</label>
+                    <input type="text" id="formShopLokal" placeholder="np. Lokal #02" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Poziom (Piętro)</label>
+                    <select id="formShopLevel" class="w-full px-4 py-2.5 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                        <option value="0">Poziom 0</option>
+                        <option value="1">Poziom 1</option>
+                        <option value="2">Poziom 2</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Właściciel</label>
+                    <input type="text" id="formShopOwner" placeholder="np. MieszkoWita" required class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Kategoria</label>
+                    <select id="formShopCategory" class="w-full px-4 py-2.5 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                        <option value="lokale gastronomiczne">Lokale Gastronomiczne</option>
+                        <option value="budowa">Budowa</option>
+                        <option value="usługi">Usługi</option>
+                        <option value="redstone">Redstone</option>
+                        <option value="inne">Inne</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Status działalności</label>
+                    <select id="formShopStatus" class="w-full px-4 py-2.5 bg-zinc-950 text-white text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                        <option value="OTWARTE">OTWARTE</option>
+                        <option value="WKRÓTCE">WKRÓTCE</option>
+                        <option value="ZAMKNIĘTE">ZAMKNIĘTE</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Opis działalności</label>
+                    <input type="text" id="formShopDesc" placeholder="Krótki opis asortymentu..." class="w-full px-4 py-2.5 bg-zinc-950 text-white placeholder-slate-600 text-sm rounded-xl border border-white/5 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30">
+                </div>
+                
+                <div class="md:col-span-3 flex justify-end gap-3 pt-2">
+                    <button type="button" id="formCancelBtn" onclick="window.resetAdminForm()" class="hidden px-5 py-2.5 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white text-xs font-bold rounded-xl border border-white/5 transition">Anuluj edycję</button>
+                    <button type="submit" class="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-orange-600/20 transition duration-300">Zapisz w Panelu</button>
+                </div>
+            </form>
+
+            <!-- NOWA SEKCJA: Pełna lista wszystkich lokali w panelu admina -->
+            <div id="adminManagementList" class="mt-8 pt-6 border-t border-white/10">
+                <h3 class="text-xs font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
+                    📋 Szybkie zarządzanie wszystkimi lokalami (${window.listaSklepow ? window.listaSklepow.length : 0})
+                </h3>
+                <div class="overflow-x-auto rounded-xl border border-white/5">
+                    <table class="w-full text-left text-xs text-slate-300 border-collapse bg-black/40">
+                        <thead>
+                            <tr class="border-b border-white/10 bg-white/5 text-slate-400 uppercase tracking-wider text-[10px]">
+                                <th class="py-3 px-4">Boks</th>
+                                <th class="py-3 px-4">Nazwa Lokalu</th>
+                                <th class="py-3 px-4">Poziom</th>
+                                <th class="py-3 px-4">Właściciel</th>
+                                <th class="py-3 px-4">Kategoria</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4 text-right">Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminShopsTableBody" class="divide-y divide-white/5">
+                            <!-- Dane ładowane dynamicznie przez JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <main id="home" class="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-24">
         
         <div class="mb-16 p-6 rounded-2xl bg-gradient-to-r from-red-950/40 via-orange-950/20 to-transparent border border-orange-500/20 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-2xl relative overflow-hidden group">
             <div class="absolute inset-0 bg-radial opacity-30 pointer-events-none group-hover:opacity-40 transition-opacity"></div>
             <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left z-10">
-                <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 text-2xl font-bold animate-pulse shadow-[0_0_20px_rgba(249,115,22,0.15)]">
-                    🔧
-                </div>
+                <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 text-2xl font-bold animate-pulse shadow-[0_0_20px_rgba(249,115,22,0.15)]">🔧</div>
                 <div>
                     <h3 class="text-white font-extrabold text-lg tracking-wide flex items-center gap-2 justify-center sm:justify-start">
                         BUDOWA NOWEGO BUDYNKU CENTRUM
@@ -137,39 +230,27 @@
                     <p class="text-slate-400 text-sm mt-1 max-w-2xl">Trwa budowa nowego centrum handlowego. <strong class="text-slate-200">Obecnie nie ma możliwości odwiedziania wyspy</strong>, przygotowujemy dla Was całkowicie nowe, większe i ładniejsze centrum! Wkrótce więcej informacji.</p>
                 </div>
             </div>
-            <a href="#sklepy" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-white/10 transition z-10 whitespace-nowrap">
-                Zobacz plany boksów ↓
-            </a>
+            <a href="#sklepy" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-white/10 transition z-10 whitespace-nowrap">Zobacz plany boksów ↓</a>
         </div>
 
-        <!-- Hero Section -->
         <div class="text-center max-w-3xl mx-auto mb-20 relative">
             <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[500px] glow-radial pointer-events-none z-0"></div>
-            
             <span class="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-zinc-900/90 text-orange-400 border border-zinc-800 mb-8 uppercase tracking-widest shadow-inner shadow-black">
-                <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
-                BUDOWA NOWEGO CENTRUM
+                <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>BUDOWA NOWEGO CENTRUM
             </span>
-            <h1 class="relative z-10 text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-6">
-                Nowe, najlepsze <br><span class="text-gradient">Centrum Handlowe </span>
-            </h1>
-            <p class="relative z-10 text-base md:text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-                Pierwsze centrum handlowe na trybie <span class="text-white font-semibold">OneBlock, Anarchia.GG</span>. 
-            </p>
+            <h1 class="relative z-10 text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-6">Nowe, najlepsze <br><span class="text-gradient">Centrum Handlowe </span></h1>
+            <p class="relative z-10 text-base md:text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto">Pierwsze centrum handlowe na trybie <span class="text-white font-semibold">OneBlock, Anarchia.GG</span>.</p>
             <div class="relative z-10 flex flex-wrap justify-center gap-4">
                 <div class="px-6 py-3.5 glass-card rounded-2xl flex items-center gap-4 shadow-2xl">
                     <div class="text-left">
                         <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Aby przenieść się do centrum wpisz</span>
                         <code class="text-orange-400 font-mono font-black text-base tracking-wide">/is warp kubagood</code>
                     </div>
-                    <button onclick="navigator.clipboard.writeText('/is warp kubagood')" class="p-2 bg-white/5 hover:bg-orange-500/20 text-slate-400 hover:text-orange-400 rounded-lg border border-white/5 transition-all text-xs" title="Kopiuj komendę">
-                        📋
-                    </button>
+                    <button onclick="navigator.clipboard.writeText('/is warp kubagood')" class="p-2 bg-white/5 hover:bg-orange-500/20 text-slate-400 hover:text-orange-400 rounded-lg border border-white/5 transition-all text-xs" title="Kopiuj komendę">📋</button>
                 </div>
             </div>
         </div>
 
-        <!-- NOWA SEKCJA: Dlaczego warto i statystyki -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24 relative z-10">
             <div class="p-6 rounded-3xl glass-card flex flex-col items-center text-center tilt-card">
                 <div class="w-12 h-12 mb-4 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
@@ -190,20 +271,17 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                 </div>
                 <h3 class="text-white font-bold mb-2">Prestiżowa lokacja</h3>
-                <p class="text-slate-400 text-xs">Posiadanie lokalu w pierwszym takim centrum buduje zaufanie i renomę wśród graczy.</p>
+                <p class="text-slate-400 text-xs">Posiadanie lokalizacji w pierwszym takim centrum buduje zaufanie i renomę wśród graczy.</p>
             </div>
         </div>
 
         <div id="sklepy" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
-            
             <div class="lg:col-span-7 space-y-6">
-                
                 <div class="p-6 rounded-3xl glass-card relative overflow-hidden">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>
-                                Wyszukiwarka sklepów
+                                <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>Wyszukiwarka sklepów
                             </h2>
                             <p class="text-slate-400 text-xs mt-0.5">Wyszukaj lokal handlowy, aby sprawdzić jego asortyment i właściciela.</p>
                         </div>
@@ -215,12 +293,12 @@
                     </div>
 
                     <div class="flex flex-wrap gap-2 text-xs">
-                        <button onclick="filterCategory('all')" id="cat-all" class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold border border-orange-500/20 transition-all">Wszystkie</button>
-                        <button onclick="filterCategory('lokale gastronomiczne')" id="cat-lokale-gastronomiczne" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Lokale Gastronomiczne</button>
-                        <button onclick="filterCategory('budowa')" id="cat-budowa" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Budowa</button>
-                        <button onclick="filterCategory('usługi')" id="cat-usługi" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Usługi</button>
-                        <button onclick="filterCategory('redstone')" id="cat-redstone" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Redstone</button>
-                        <button onclick="filterCategory('inne')" id="cat-inne" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Inne</button>
+                        <button onclick="window.filterCategory('all')" id="cat-all" class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold border border-orange-500/20 transition-all">Wszystkie</button>
+                        <button onclick="window.filterCategory('lokale gastronomiczne')" id="cat-lokale-gastronomiczne" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Lokale Gastronomiczne</button>
+                        <button onclick="window.filterCategory('budowa')" id="cat-budowa" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Budowa</button>
+                        <button onclick="window.filterCategory('usługi')" id="cat-usługi" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Usługi</button>
+                        <button onclick="window.filterCategory('redstone')" id="cat-redstone" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Redstone</button>
+                        <button onclick="window.filterCategory('inne')" id="cat-inne" class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all">Inne</button>
                     </div>
                 </div>
 
@@ -229,12 +307,11 @@
                 </div>
 
                 <div id="shopsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Dynamicznie wczytywane z JS -->
+                    <p class="text-center text-slate-400 col-span-2 py-8">Inicjalizacja bezpiecznego połączenia z Firebase...</p>
                 </div>
 
-                <!-- NOWOŚĆ: Przycisk pokaż więcej/mniej -->
                 <div id="toggleShopsContainer" class="text-center pt-2 hidden">
-                    <button id="toggleShopsBtn" onclick="toggleShops()" class="px-6 py-2.5 bg-white/5 hover:bg-orange-500/20 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-white/10 transition-all shadow-md flex items-center gap-2 mx-auto">
+                    <button id="toggleShopsBtn" onclick="window.toggleShops()" class="px-6 py-2.5 bg-white/5 hover:bg-orange-500/20 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-white/10 transition-all shadow-md flex items-center gap-2 mx-auto">
                         Pokaż więcej 
                         <svg id="toggleIcon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -244,23 +321,19 @@
                     <span class="text-[10px] font-bold text-orange-400 uppercase tracking-widest block mb-2">GALERIA</span>
                     <h3 class="text-xl font-bold text-white mb-4">Projekt nowego centrum:</h3>
                     <div class="rounded-2xl overflow-hidden border border-white/10 bg-black aspect-video flex items-center justify-center relative shadow-inner">
-                        <img src="https://imgur.com/oAN3zRr.png" alt="Wydarzenie Centrum Handlowe OB" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
+                        <img src="https://imgur.com/oAN3zRr.png" alt="Wydarzenie" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                     </div>
                 </div>
-
             </div>
 
             <div class="lg:col-span-5 space-y-6">
-                
-                <!-- NOWOŚĆ: Ulepszony Cennik -->
                 <div id="oferta" class="p-6 rounded-3xl glass-card relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none"></div>
                     <h2 class="text-xl font-extrabold text-white mb-1 tracking-tight">Cennik wynajmu lokali</h2>
                     <p class="text-xs text-slate-400 mb-6">Wybierz rozmiar idealnie dopasowany do Twoich potrzeb biznesowych.</p>
                     
                     <div class="space-y-4">
-                        
                         <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-white/5 flex items-center gap-4 hover:border-orange-500/40 transition-all shadow-lg group">
                             <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center text-slate-300">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
@@ -276,9 +349,7 @@
                         </div>
 
                         <div class="price-card p-4 bg-gradient-to-br from-zinc-900 to-black rounded-2xl border border-white/5 flex items-center gap-4 hover:border-orange-500/40 transition-all shadow-lg group relative overflow-hidden">
-                            <!-- Popular Badge -->
                             <div class="absolute -right-6 top-3 bg-orange-500 text-white text-[9px] font-black uppercase tracking-widest py-0.5 px-8 transform rotate-45">POPULARNY</div>
-                            
                             <div class="price-icon-wrapper w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex flex-shrink-0 items-center justify-center text-orange-400">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
@@ -319,13 +390,11 @@
                                 <span class="block text-[9px] text-slate-500 uppercase tracking-wider">miesięcznie</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div id="faq" class="p-6 rounded-3xl glass-card">
                     <h2 class="text-lg font-bold text-white mb-4 tracking-wide">Najczęstsze Pytania</h2>
-                    
                     <div class="space-y-3">
                         <div class="border-b border-white/5 pb-3">
                             <input type="checkbox" id="faq-1" class="faq-status hidden">
@@ -345,7 +414,7 @@
                                 <svg class="faq-icon w-3.5 h-3.5 text-slate-500 group-hover:text-white transition transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </label>
                             <div class="faq-answer text-[11px] text-slate-400 leading-relaxed space-y-2">
-                                <p>Zgłoszenia przyjmowane są za pośrednictwem ticketa na naszym serwerze Discord. </p>
+                                <p>Zgłoszenia przyjmowane są za pośrednictwem ticketa na naszym serwerze Discord.</p>
                             </div>
                         </div>
                     </div>
@@ -354,13 +423,9 @@
                 <div class="p-6 rounded-3xl glass-card relative overflow-hidden group text-center">
                     <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-orange-500/10 rounded-full blur-xl transition-transform"></div>
                     <h3 class="text-base font-bold text-white mb-1">Zgłoś chęć wynajmu lokalu</h3>
-                    
-                    <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="w-full py-2.5 bg-white text-black hover:bg-slate-200 text-xs font-bold rounded-xl block transition-all shadow-md mt-4 relative z-10">
-                        Złóż wniosek przez Discord
-                    </a>
+                    <a href="https://discord.gg/c5CXQ7EY5s" target="_blank" class="w-full py-2.5 bg-white text-black hover:bg-slate-200 text-xs font-bold rounded-xl block transition-all shadow-md mt-4 relative z-10">Złóż wniosek przez Discord</a>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -370,82 +435,161 @@
         </div>
     </footer>
 
-    <script>
-        // ==========================================
-        // SZYBKI I PROSTY SYSTEM DODAWANIA SKLEPÓW
-        // ==========================================
-        // Chcesz dodać sklep? Po prostu skopiuj i wklej linijkę w tablicy poniżej!
-        // Dostępne kategorie to dokładnie: 'lokale gastronomiczne', 'budowa', 'usługi', 'redstone', 'inne'
-        
-        const listaSklepow = [
-            { nazwa: "Informacja", lokal: "Lokal #01", kategoria: "inne", wlasciciel: "CH", opis: "Informacja centrum." },
-            { nazwa: "KFC", lokal: "Lokal #02", kategoria: "lokale gastronomiczne", wlasciciel: "MieszkoWita", opis: "Restauracja KFC" },
-            { nazwa: "Kino Helios", lokal: "Lokal #49", kategoria: "inne", wlasciciel: "CH", opis: "Kino w centrum." },
-            { nazwa: "Lotto", lokal: "Lokal #06", kategoria: "inne", wlasciciel: "KubaCichy14", opis: "Zakład Lotto®. " },
-            { nazwa: "McDonald's", lokal: "Lokal #18", kategoria: "lokale gastronomiczne", wlasciciel: "N/A", opis: "Restauracja McDonald's" },
-            { nazwa: "Toaleta darmowa", lokal: "Lokal #16", kategoria: "inne", wlasciciel: "CH", opis: "Toaleta publiczna darmowa" },
-            { nazwa: "Everything and Nothing", lokal: "Lokal #09", kategoria: "inne", wlasciciel: "pogromca2234", opis: "Sklep ze wszystkim!" },
-{ nazwa: "Domino's Pizza", lokal: "Lokal #04, #05", kategoria: "lokale gastronomiczne", wlasciciel: "Gierkauboba", opis: "Restauracja Domino's Pizza." }
-        ];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Zmienne globalne do sterowania widocznością
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0x9vMbLmQEFYEHcivEzJoJQzJpEzXCjw",
+            authDomain: "centrum-handlowe-ob.firebaseapp.com",
+            projectId: "centrum-handlowe-ob",
+            storageBucket: "centrum-handlowe-ob.firebasestorage.app",
+            messagingSenderId: "1016608915343",
+            appId: "1:1016608915343:web:e91ba12ab93021becc95fa",
+            measurementId: "G-S51JF5E39T"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.listaSklepow = [];
         let activeCategory = 'all';
         let shopsExpanded = false;
+        let isAdminLoggedIn = false;
         const defaultVisibleCount = 4;
 
-        // Funkcja generująca strukturę kart
-        function renderShops() {
-            const container = document.getElementById('shopsContainer');
-            container.innerHTML = ''; // czyszczenie kontenera
+        // POBIERANIE I AUTOMATYCZNA AKTUALIZACJA Z BAZY NA ŻYWO
+        onSnapshot(collection(db, "sklepy"), (snapshot) => {
+            let sklepy = [];
+            snapshot.forEach((doc) => {
+                sklepy.push({ id: doc.id, ...doc.data() });
+            });
+            // Sortowanie boksów numerycznie (np. Lokal #01, Lokal #02)
+            sklepy.sort((a, b) => {
+                const boksA = a.lokal || '';
+                const boksB = b.lokal || '';
+                return boksA.localeCompare(boksB, undefined, { numeric: true, sensitivity: 'base' });
+            });
+            window.listaSklepow = sklepy;
+            window.renderShops();
+            window.renderAdminShops();
+        }, (error) => {
+            console.error("Błąd pobierania danych z Firestore:", error);
+        });
 
-            listaSklepow.forEach(sklep => {
+        // GENEROWANIE KART NA STRONIE DLA ZWYKŁYCH UŻYTKOWNIKÓW
+        window.renderShops = function() {
+            const container = document.getElementById('shopsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (window.listaSklepow.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500 col-span-2 py-4 text-xs">Baza danych jest obecnie pusta. Zaloguj się do panelu administratora i dodaj pierwszy boks!</p>';
+                return;
+            }
+
+            window.listaSklepow.forEach(sklep => {
                 const card = document.createElement('div');
                 card.className = "shop-card tilt-card p-5 rounded-2xl glass-card flex flex-col justify-between group relative overflow-hidden transition-all duration-300";
                 
-                // Przypisanie atrybutów danych pod system wyszukiwarki
-                card.setAttribute('data-name', sklep.nazwa);
-                card.setAttribute('data-owner', sklep.wlasciciel);
-                card.setAttribute('data-lokal', sklep.lokal);
-                card.setAttribute('data-category', sklep.kategoria);
+                card.setAttribute('data-name', sklep.nazwa || '');
+                card.setAttribute('data-owner', sklep.wlasciciel || 'N/A');
+                card.setAttribute('data-lokal', sklep.lokal || '');
+                card.setAttribute('data-category', sklep.kategoria || 'inne');
+                card.setAttribute('data-level', sklep.poziom || '0');
+
+                let statusColors = "border-amber-500/30 text-amber-400"; // WKRÓTCE
+                if(sklep.status === "OTWARTE") statusColors = "border-emerald-500/30 text-emerald-400";
+                if(sklep.status === "ZAMKNIĘTE") statusColors = "border-rose-500/30 text-rose-400";
+
+                // Narzędzia edycji pod kartami (opcjonalne, zachowane jako funkcja dodatkowa)
+                let adminControls = "";
+                if(isAdminLoggedIn) {
+                    adminControls = `
+                        <div class="mt-3 pt-2 border-t border-white/10 flex gap-2 relative z-20">
+                            <button onclick="window.wczytajDoEdycji('${sklep.id}')" class="text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded hover:bg-orange-500/20 transition">Edytuj</button>
+                            <button onclick="window.usunSklep('${sklep.id}')" class="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded hover:bg-red-500/20 transition">Usuń</button>
+                        </div>
+                    `;
+                }
 
                 card.innerHTML = `
                     <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                     <div>
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <span class="text-[10px] font-black tracking-widest text-orange-400 uppercase block">${sklep.lokal}</span>
-                                <h3 class="text-base font-bold text-white mt-0.5 group-hover:text-orange-400 transition-colors">${sklep.nazwa}</h3>
+                                <span class="text-[10px] font-black tracking-widest text-orange-400 uppercase block">${sklep.lokal || 'Brak boksu'} (Poziom ${sklep.poziom !== undefined ? sklep.poziom : '0'})</span>
+                                <h3 class="text-base font-bold text-white mt-0.5 group-hover:text-orange-400 transition-colors">${sklep.nazwa || 'Bez nazwy'}</h3>
                             </div>
-                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-zinc-900 border border-amber-500/30 text-amber-400 tracking-wider">WKRÓTCE</span>
+                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-zinc-900 border ${statusColors} tracking-wider uppercase">${sklep.status || 'WKRÓTCE'}</span>
                         </div>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-4">${sklep.opis}</p>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-4">${sklep.opis || 'Brak opisu działalności.'}</p>
                     </div>
-                    <div class="pt-3 border-t border-white/5 flex items-center justify-between text-[11px]">
-                        <div class="text-slate-500">Właściciel: <span class="text-slate-300 font-semibold">${sklep.wlasciciel}</span></div>
-                        <div class="text-slate-500">Kategoria: <span class="text-slate-300 font-semibold capitalize">${sklep.kategoria}</span></div>
+                    <div>
+                        <div class="pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                            <div class="text-slate-500">Właściciel: <span class="text-slate-300 font-semibold">${sklep.wlasciciel || 'N/A'}</span></div>
+                            <div class="text-slate-500">Kategoria: <span class="text-slate-300 font-semibold capitalize">${sklep.kategoria || 'inne'}</span></div>
+                        </div>
+                        ${adminControls}
                     </div>
                 `;
                 container.appendChild(card);
             });
 
-            initTiltEffect();
-            filterShops();
-        }
+            window.initTiltEffect();
+            window.filterShops();
+        };
 
-        // ==========================================
-        // SYSTEM WYSZUKIWANIA I FILTRACJI (z Pokaż więcej)
-        // ==========================================
+        // GENEROWANIE LISTY ZARZĄDZANIA W PANELU ADMINA (BEZ PRZEWIJANIA)
+        window.renderAdminShops = function() {
+            const tbody = document.getElementById('adminShopsTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const sectionTitle = document.querySelector('#adminManagementList h3');
+            if (sectionTitle) {
+                sectionTitle.innerText = `📋 Szybkie zarządzanie wszystkimi lokalami (${window.listaSklepow.length})`;
+            }
+
+            if (window.listaSklepow.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-4 text-center text-slate-500 text-xs">Brak lokali w bazie danych. Dodaj pierwszy lokal przy użyciu powyższego formularza.</td></tr>`;
+                return;
+            }
+
+            window.listaSklepow.forEach(sklep => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors text-xs text-slate-300";
+
+                let statusColors = "text-amber-400";
+                if(sklep.status === "OTWARTE") statusColors = "text-emerald-400 font-bold";
+                if(sklep.status === "ZAMKNIĘTE") statusColors = "text-rose-400 font-bold";
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-bold text-orange-400">${sklep.lokal || 'N/A'}</td>
+                    <td class="py-3 px-4 font-bold text-white">${sklep.nazwa || 'Bez nazwy'}</td>
+                    <td class="py-3 px-4 font-semibold text-slate-200">Poziom ${sklep.poziom !== undefined ? sklep.poziom : '0'}</td>
+                    <td class="py-3 px-4 text-slate-400">${sklep.wlasciciel || 'N/A'}</td>
+                    <td class="py-3 px-4 text-slate-400 capitalize">${sklep.kategoria || 'inne'}</td>
+                    <td class="py-3 px-4 ${statusColors}">${sklep.status || 'WKRÓTCE'}</td>
+                    <td class="py-3 px-4 text-right space-x-2 whitespace-nowrap">
+                        <button onclick="window.wczytajDoEdycji('${sklep.id}')" class="text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2.5 py-1 rounded-lg hover:bg-orange-500/30 transition">Edytuj</button>
+                        <button onclick="window.usunSklep('${sklep.id}')" class="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-lg hover:bg-red-500/30 transition">Usuń</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        // FILTRY I WYSZUKIWARKA
         const searchInput = document.getElementById('shopSearch');
         const noResultsAlert = document.getElementById('noResultsAlert');
         const toggleContainer = document.getElementById('toggleShopsContainer');
         const toggleBtn = document.getElementById('toggleShopsBtn');
-        const toggleIcon = document.getElementById('toggleIcon');
 
-        function filterShops() {
+        window.filterShops = function() {
+            if(!searchInput) return;
             const query = searchInput.value.toLowerCase().trim();
             const cards = document.querySelectorAll('.shop-card');
-            
-            // Zbierz wszystkie karty pasujące do filtrów
             let matchedCards = [];
 
             cards.forEach(card => {
@@ -460,71 +604,154 @@
                 if (matchesSearch && matchesCategory) {
                     matchedCards.push(card);
                 }
-                // Najpierw ukryj wszystkie
                 card.style.display = 'none';
             });
 
-            // Wyświetl na podstawie stanu expand (Pokaż więcej/mniej)
             const limit = shopsExpanded ? matchedCards.length : Math.min(defaultVisibleCount, matchedCards.length);
-            
             for (let i = 0; i < limit; i++) {
                 matchedCards[i].style.display = 'flex';
             }
 
-            // Zarządzanie wiadomością "brak wyników"
-            if (matchedCards.length === 0) {
-                noResultsAlert.classList.remove('hidden');
-            } else {
-                noResultsAlert.classList.add('hidden');
+            if (noResultsAlert) {
+                if (matchedCards.length === 0 && window.listaSklepow.length > 0) noResultsAlert.classList.remove('hidden');
+                else noResultsAlert.classList.add('hidden');
             }
 
-            // Zarządzanie przyciskiem "Pokaż więcej / Pokaż mniej"
-            if (matchedCards.length > defaultVisibleCount) {
-                toggleContainer.classList.remove('hidden');
-                if (shopsExpanded) {
-                    toggleBtn.innerHTML = `Pokaż mniej <svg class="w-4 h-4 transform rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+            if (toggleContainer && toggleBtn) {
+                if (matchedCards.length > defaultVisibleCount) {
+                    toggleContainer.classList.remove('hidden');
+                    if (shopsExpanded) {
+                        toggleBtn.innerHTML = `Pokaż mniej <svg class="w-4 h-4 transform rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                    } else {
+                        toggleBtn.innerHTML = `Pokaż więcej (${matchedCards.length - defaultVisibleCount}) <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                    }
                 } else {
-                    toggleBtn.innerHTML = `Pokaż więcej (${matchedCards.length - defaultVisibleCount}) <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                    toggleContainer.classList.add('hidden');
                 }
-            } else {
-                toggleContainer.classList.add('hidden');
             }
-        }
+        };
 
-        // Funkcja obsługująca kliknięcie w przycisk "Pokaż więcej/mniej"
-        function toggleShops() {
+        window.toggleShops = function() {
             shopsExpanded = !shopsExpanded;
-            filterShops();
-        }
+            window.filterShops();
+        };
 
-        function filterCategory(cat) {
+        window.filterCategory = function(cat) {
             activeCategory = cat;
-            // Resetujemy stan przy zmianie kategorii by było widać 4 sklepy
             shopsExpanded = false;
-            
             const categoriesIds = ['all', 'lokale-gastronomiczne', 'budowa', 'usługi', 'redstone', 'inne'];
             categoriesIds.forEach(id => {
                 const btn = document.getElementById(`cat-${id}`);
+                if (!btn) return;
                 if (id === cat || (cat === 'lokale gastronomiczne' && id === 'lokale-gastronomiczne')) {
                     btn.className = "px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold border border-orange-500/20 transition-all";
                 } else {
                     btn.className = "px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/5 transition-all";
                 }
             });
+            window.filterShops();
+        };
 
-            filterShops();
+        if(searchInput) {
+            searchInput.addEventListener('input', () => {
+                shopsExpanded = false;
+                window.filterShops();
+            });
         }
 
-        searchInput.addEventListener('input', () => {
-            // Zresetuj rozwinięcie gdy użytkownik wpisuje w wyszukiwarkę
-            shopsExpanded = false;
-            filterShops();
+        // AKCJE I OBSŁUGA PANELU ADMINA
+        window.toggleAdminPanel = function() {
+            const panel = document.getElementById('adminPanelSection');
+            if(panel.classList.contains('hidden')) {
+                const pin = prompt("Wprowadź hasło do zarządzania boksami CH:");
+                if(pin === "123") { 
+                    isAdminLoggedIn = true;
+                    panel.classList.remove('hidden');
+                    document.getElementById('adminToggleBtn').innerText = "🔒 Wyloguj z Admina";
+                    window.renderShops();
+                    window.renderAdminShops();
+                } else if (pin !== null) {
+                    alert("Niepoprawne hasło dostępowe.");
+                }
+            } else {
+                window.closeAdminPanel();
+            }
+        };
+
+        window.closeAdminPanel = function() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminPanelSection').classList.add('hidden');
+            document.getElementById('adminToggleBtn').innerText = "⚙️ Panel Admina";
+            window.resetAdminForm();
+            window.renderShops();
+        };
+
+        document.getElementById('adminStoreForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const shopId = document.getElementById('formShopId').value;
+            const daneSklepu = {
+                nazwa: document.getElementById('formShopName').value,
+                lokal: document.getElementById('formShopLokal').value,
+                poziom: parseInt(document.getElementById('formShopLevel').value, 10) || 0,
+                wlasciciel: document.getElementById('formShopOwner').value,
+                kategoria: document.getElementById('formShopCategory').value,
+                status: document.getElementById('formShopStatus').value,
+                opis: document.getElementById('formShopDesc').value
+            };
+
+            try {
+                if(shopId) {
+                    await updateDoc(doc(db, "sklepy", shopId), daneSklepu);
+                    alert("Pomyślnie zaktualizowano dane boksu!");
+                } else {
+                    const bezpieczneId = "boks_" + Date.now();
+                    await setDoc(doc(db, "sklepy", bezpieczneId), daneSklepu);
+                    alert("Nowy boks został dodany do bazy Firebase!");
+                }
+                window.resetAdminForm();
+            } catch (error) {
+                alert("Błąd zapisu w Firebase: " + error.message);
+            }
         });
 
-        // ==========================================
-        // EFEKT TRÓJWYMIAROWY (3D TILT EFFECT)
-        // ==========================================
-        function initTiltEffect() {
+        window.wczytajDoEdycji = function(id) {
+            const sklep = window.listaSklepow.find(s => s.id === id);
+            if(sklep) {
+                document.getElementById('formShopId').value = sklep.id;
+                document.getElementById('formShopName').value = sklep.nazwa || '';
+                document.getElementById('formShopLokal').value = sklep.lokal || '';
+                document.getElementById('formShopLevel').value = sklep.poziom !== undefined ? sklep.poziom : '0';
+                document.getElementById('formShopOwner').value = sklep.wlasciciel || '';
+                document.getElementById('formShopCategory').value = sklep.kategoria || 'inne';
+                document.getElementById('formShopStatus').value = sklep.status || 'WKRÓTCE';
+                document.getElementById('formShopDesc').value = sklep.opis || '';
+                
+                document.getElementById('formCancelBtn').classList.remove('hidden');
+                document.getElementById('adminPanelSection').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        window.usunSklep = async function(id) {
+            if(confirm("Czy na pewno chcesz bezpowrotnie skasować ten boks z bazy danych?")) {
+                try {
+                    await deleteDoc(doc(db, "sklepy", id));
+                    alert("Boks został usunięty.");
+                } catch (error) {
+                    alert("Wystąpił błąd podczas usuwania: " + error.message);
+                }
+            }
+        };
+
+        window.resetAdminForm = function() {
+            document.getElementById('adminStoreForm').reset();
+            document.getElementById('formShopId').value = "";
+            document.getElementById('formShopLevel').value = "0";
+            document.getElementById('formCancelBtn').classList.add('hidden');
+        };
+
+        // TRÓJWYMIAROWY EFEKT KART (3D TILT EFFECT)
+        window.initTiltEffect = function() {
             const tiltCards = document.querySelectorAll('.tilt-card');
             tiltCards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -545,10 +772,7 @@
                     card.style.transition = 'transform 0.1s ease-out';
                 });
             });
-        }
-
-        // Renderowanie sklepów od razu przy ładowaniu strony
-        window.addEventListener('DOMContentLoaded', renderShops);
+        };
     </script>
 </body>
 </html>
